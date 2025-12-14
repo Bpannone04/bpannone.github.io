@@ -5,7 +5,7 @@ FROM php:8-fpm-alpine
 RUN apk add --no-cache nginx supervisor
 
 # Copy website files to nginx html directory
-COPY . /var/www/html
+COPY src /var/www/html
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf

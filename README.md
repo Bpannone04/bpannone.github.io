@@ -16,7 +16,7 @@ This project uses Docker for the development environment.
    docker-compose up
    ```
 
-2. **View your website:**
+2. **View the development website:**
    Open your browser and navigate to `http://localhost:8080`
 
 3. **Stop the development server:**
