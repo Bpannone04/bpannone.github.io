@@ -32,11 +32,24 @@ The website files are mounted as a volume, so changes to your HTML/CSS/JS files 
 
 ### Project Structure
 
-- `src/` - All website code (HTML, CSS, JavaScript files)
-  - `src/js/` - JavaScript files
-  - `src/index.html` - Main HTML file
+- `index.html` - Main HTML file (served by both Docker and GitHub Pages)
+- `js/` - JavaScript files
+  - `js/main.js` - Main JavaScript file
 
-### Building for Production
+**Note:** Files are stored in the root directory and work for both Docker development and GitHub Pages deployment.
+
+### Deploying to GitHub Pages
+
+Simply commit and push your changes:
+```bash
+git add .
+git commit -m "Update website"
+git push
+```
+
+GitHub Pages will automatically deploy the files from the root directory.
+
+### Building for Production (Docker)
 
 To build the Docker image:
 ```bash

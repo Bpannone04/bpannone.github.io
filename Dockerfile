@@ -2,13 +2,18 @@
 FROM nginx:alpine
 
 # Copy website files to nginx html directory
-COPY src /usr/share/nginx/html
+COPY index.html /usr/share/nginx/html/
+COPY js /usr/share/nginx/html/js
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
+# Copy entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 # Expose port 80
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Use entrypoint script to handle permissions
+ENTRYPOINT ["/docker-entrypoint.sh"]
