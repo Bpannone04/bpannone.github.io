@@ -8,7 +8,11 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./src:/usr/share/nginx/html
+      - ./index.html:/usr/share/nginx/html/index.html
+      - ./js:/usr/share/nginx/html/js
     restart: unless-stopped
     container_name: bpannone-website
+    # Uncomment the line below if you get 403 errors on Mac:
+    # environment:
+    #   - NGINX_USER=root
 
