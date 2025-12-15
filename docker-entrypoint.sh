@@ -7,7 +7,7 @@ NGINX_USER="${NGINX_USER:-nginx}"
 
 if [ "$NGINX_USER" = "root" ]; then
     echo "Running nginx as root (configured via NGINX_USER env var)"
-    sed -i 's/^user nginx;/# user nginx; # Running as root/' /etc/nginx/nginx.conf
+    sed -i 's/^user nginx;/user root;/' /etc/nginx/nginx.conf
 else
     # Try to fix permissions for nginx user
     # On Mac, this often fails due to volume mount restrictions
@@ -20,7 +20,7 @@ else
         # Use a simple test: try to cat as nginx user via su
         if ! su nginx -s /bin/sh -c "test -r /usr/share/nginx/html/index.html" 2>/dev/null; then
             echo "Warning: nginx user cannot read files. Running as root for compatibility."
-            sed -i 's/^user nginx;/# user nginx; # Running as root for compatibility/' /etc/nginx/nginx.conf
+            sed -i 's/^user nginx;/user root;/' /etc/nginx/nginx.conf
         fi
     fi
 fi
