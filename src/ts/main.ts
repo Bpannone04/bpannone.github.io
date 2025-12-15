@@ -54,10 +54,9 @@ class Website {
 
     private showDevelopmentBanner(): void {
         const banner = document.createElement('div');
-        banner.className = 'fixed top-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md';
+        banner.className = 'fixed bottom-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md';
         banner.textContent = 'DEVELOPMENT ENVIRONMENT NOT PRODUCTION';
-        document.body.insertBefore(banner, document.body.firstChild);
-        document.body.style.paddingTop = '40px';
+        document.body.appendChild(banner);
     }
 
     private render(): void {
