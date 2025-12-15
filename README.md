@@ -1,17 +1,48 @@
 # bpannone.github.io
 Personal Website
 
-A static website built with HTML, CSS, and JavaScript, designed to be hosted on GitHub Pages.
+A modern static website built with TypeScript and Tailwind CSS, designed to be hosted on GitHub Pages.
+
+## Tech Stack
+
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Docker** - Optional local development environment (not used for deployment)
 
 ## Development Environment
 
-This project uses Docker for the development environment with nginx serving static files.
+**Note:** Docker is optional and only used for local development. Build locally and deploy manually to GitHub Pages.
 
 ### Prerequisites
-- Docker
-- Docker Compose
 
-### Getting Started
+- **Node.js** (v20 or higher) - For local development
+- **Docker** - For containerized development
+- **Docker Compose** - For orchestrating services
+
+### Local Development (Without Docker)
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Build the project:**
+   ```bash
+   npm run build
+   ```
+
+3. **Start development server with watch mode:**
+   ```bash
+   npm run dev
+   ```
+
+4. **View the development website:**
+   Open `dist/index.html` in your browser, or use a local server:
+   ```bash
+   npx serve dist
+   ```
+
+### Docker Development
 
 1. **Start the development server:**
    ```bash
@@ -28,35 +59,73 @@ This project uses Docker for the development environment with nginx serving stat
 
 ### Development Workflow
 
-The website files are mounted as a volume, so changes to your HTML/CSS/JS files will be reflected immediately (you may need to refresh your browser).
+- Source files are in the `src/` directory
+- TypeScript files: `src/ts/`
+- CSS files: `src/css/`
+- HTML files: `src/`
+- Built files are output to `dist/` directory
+
+For Docker development, rebuild the container after making changes:
+```bash
+docker-compose up --build
+```
 
 ### Project Structure
 
-- `index.html` - Main HTML file (served by both Docker and GitHub Pages)
-- `js/` - JavaScript files
-  - `js/main.js` - Main JavaScript file
+```
+.
+├── src/                    # Source files
+│   ├── ts/                # TypeScript source files
+│   │   └── main.ts
+│   ├── css/               # CSS source files
+│   │   └── input.css      # Tailwind CSS input
+│   └── index.html         # Main HTML file
+├── dist/                  # Built files (generated)
+│   ├── css/
+│   │   └── styles.css     # Compiled Tailwind CSS
+│   ├── js/
+│   │   └── main.js        # Compiled TypeScript
+│   └── index.html
+├── package.json           # Node.js dependencies
+├── tsconfig.json          # TypeScript configuration
+├── tailwind.config.js     # Tailwind CSS configuration
+└── Dockerfile             # Production Docker image
+```
 
-**Note:** Files are stored in the root directory and work for both Docker development and GitHub Pages deployment.
+### Building for Production
+
+To build the project locally:
+```bash
+npm run build
+```
+
+The built files will be in the `dist/` directory.
 
 ### Deploying to GitHub Pages
 
-Simply commit and push your changes:
+1. Build the project:
+   ```bash
+   npm run build
+   ```
+
+2. Copy the contents of `dist/` to your repository root (or configure GitHub Pages to serve from `dist/`)
+
+3. Commit and push:
+   ```bash
+   git add .
+   git commit -m "Update website"
+   git push
+   ```
+
+**Note:** Since you're working in a develop branch, merge to main when ready to deploy.
+
+### Docker (Local Development Only)
+
+Docker is optional and only for local development/testing. It's not used for deployment:
+
+To build and run locally with Docker:
 ```bash
-git add .
-git commit -m "Update website"
-git push
+docker-compose up --build
 ```
 
-GitHub Pages will automatically deploy the files from the root directory.
-
-### Building for Production (Docker)
-
-To build the Docker image:
-```bash
-docker build -t bpannone-website .
-```
-
-To run the built image:
-```bash
-docker run -p 8080:80 bpannone-website
-```
+This will build your site and serve it at `http://localhost:8080` for local testing only.

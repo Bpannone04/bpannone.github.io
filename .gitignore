@@ -1,9 +1,11 @@
-# Log files
-*.log
-*.pid
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
 
-# Docker
-.DS_Store
+# Build outputs
+dist/
+*.log
 
 # Environment files
 .env

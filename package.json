@@ -1,0 +1,25 @@
+{
+  "name": "bpannone-website",
+  "version": "1.0.0",
+  "description": "Personal website for Bryce Pannone",
+  "scripts": {
+    "prebuild": "mkdir -p dist/css dist/js",
+    "build": "npm run build:css && npm run build:ts",
+    "build:css": "tailwindcss -i ./src/css/input.css -o ./dist/css/styles.css --minify",
+    "build:ts": "tsc && npm run copy:files",
+    "copy:files": "cp ./src/index.html ./dist/index.html && cp ./CNAME ./dist/CNAME 2>/dev/null || true",
+    "dev": "npm run prebuild && npm run build && npm run watch",
+    "watch": "concurrently \"npm run watch:css\" \"npm run watch:ts\"",
+    "watch:css": "tailwindcss -i ./src/css/input.css -o ./dist/css/styles.css --watch",
+    "watch:ts": "tsc --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3"
+  }
+}
+
