@@ -5,6 +5,7 @@ yarn.lock
 
 # Build outputs
 dist/
+node_modules/
 *.log
 
 # Environment files
