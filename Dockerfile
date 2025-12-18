@@ -6,7 +6,7 @@ WORKDIR /app
 # Copy package files
 COPY package.json ./
 
-# Install dependencies (using npm install since package-lock.json may not exist)
+# Install dependencies
 RUN npm install
 
 # Copy source files
@@ -19,7 +19,8 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy built files from builder stage (from root, not dist)
-COPY --from=builder /app/index.html /usr/share/nginx/html/
+# Includes index.html and any additional pages like about.html
+COPY --from=builder /app/*.html /usr/share/nginx/html/
 COPY --from=builder /app/css /usr/share/nginx/html/css
 COPY --from=builder /app/js /usr/share/nginx/html/js
 # Copy CNAME if it exists (optional)
@@ -30,7 +31,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+RUN sed -i 's/\r$//' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
 
 # Expose port 80
 EXPOSE 80

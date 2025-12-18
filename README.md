@@ -10,9 +10,7 @@ A modern static website built with TypeScript and Tailwind CSS, designed to be h
 - **Docker** - Optional local development environment (not used for deployment)
 
 ## Development Environment
-
 **Note:** Docker is optional and only used for local development. Build locally and deploy manually to GitHub Pages.
-
 ### Prerequisites
 
 - **Docker** and **Docker Compose**

@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "Personal website for Bryce Pannone",
   "scripts": {
-    "prebuild": "mkdir -p dist/css dist/js css js",
+    "prebuild": "mkdir -p css js",
     "build": "npm run build:css && npm run build:ts",
     "build:css": "tailwindcss -i ./src/css/input.css -o ./css/styles.css --minify",
-    "build:ts": "tsc && npm run copy:files",
-    "copy:files": "cp ./src/index.html ./index.html && cp ./CNAME ./CNAME 2>/dev/null || true",
+    "build:ts": "tsc",
     "dev": "npm run prebuild && npm run build && npm run watch",
     "watch": "concurrently \"npm run watch:css\" \"npm run watch:ts\"",
     "watch:css": "tailwindcss -i ./src/css/input.css -o ./dist/css/styles.css --watch",

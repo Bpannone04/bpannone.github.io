@@ -8,6 +8,9 @@ dist/
 node_modules/
 *.log
 
+# Source maps (avoid committing generated map files)
+*.map
+
 # Environment files
 .env
 .env.local

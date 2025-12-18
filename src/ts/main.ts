@@ -7,13 +7,11 @@ interface NavItem {
 
 interface Skill {
     name: string;
-    icon: string;
 }
 
 interface Project {
     title: string;
     description: string;
-    icon: string;
     tags: string[];
     link?: string;
 }
@@ -26,6 +24,7 @@ interface ContactLink {
 
 class Website {
     private app: HTMLElement;
+    private page: 'home' | 'about';
     
     constructor() {
         const appElement = document.getElementById('app');
@@ -33,12 +32,19 @@ class Website {
             throw new Error('App element not found');
         }
         this.app = appElement;
+        this.page = this.getPage();
     }
 
     init(): void {
         this.checkDevelopmentEnvironment();
         this.render();
         this.initEventListeners();
+    }
+
+    private getPage(): 'home' | 'about' {
+        const pageAttr = document.body.getAttribute('data-page');
+        if (pageAttr === 'about') return 'about';
+        return 'home';
     }
 
     private checkDevelopmentEnvironment(): void {
@@ -60,10 +66,21 @@ class Website {
     }
 
     private render(): void {
+        if (this.page === 'about') {
+            this.app.innerHTML = `
+                ${this.renderNavigation()}
+                ${this.renderPageHeader('About')}
+                ${this.renderAbout()}
+                ${this.renderFooter()}
+            `;
+            return;
+        }
+
+        // Home page
         this.app.innerHTML = `
             ${this.renderNavigation()}
             ${this.renderHero()}
-            ${this.renderAbout()}
+            ${this.renderAboutTeaser()}
             ${this.renderSkills()}
             ${this.renderProjects()}
             ${this.renderContact()}
@@ -73,15 +90,21 @@ class Website {
 
     private renderNavigation(): string {
         const navItems: NavItem[] = [
-            { label: 'About', href: '#about' },
-            { label: 'Skills', href: '#skills' },
-            { label: 'Projects', href: '#projects' },
-            { label: 'Contact', href: '#contact' }
+            { label: 'Home', href: 'index.html' },
+            { label: 'About', href: 'about.html' },
+            { label: 'Projects', href: 'index.html#projects' },
+            { label: 'Contact', href: 'index.html#contact' }
         ];
 
-        const navLinks = navItems.map(item => 
-            `<a href="${item.href}" class="nav-link text-gray-700 hover:text-slate-800 transition-colors">${item.label}</a>`
-        ).join('');
+        const activeHref = this.page === 'about' ? 'about.html' : 'index.html';
+
+        const navLinks = navItems.map(item => {
+            const isActive = item.href === activeHref;
+            const classes = isActive
+                ? 'nav-link text-slate-900 font-semibold'
+                : 'nav-link text-gray-700 hover:text-slate-800 transition-colors';
+            return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
+        }).join('');
 
         return `
             <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50">
@@ -100,57 +123,130 @@ class Website {
                 </div>
                 <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
                     <div class="px-4 py-4 space-y-4">
-                        ${navItems.map(item => 
-                            `<a href="${item.href}" class="block text-gray-700 hover:text-slate-800 transition-colors">${item.label}</a>`
-                        ).join('')}
+                        ${navItems.map(item => {
+                            const isActive = item.href === activeHref;
+                            const classes = isActive
+                                ? 'block text-slate-900 font-semibold'
+                                : 'block text-gray-700 hover:text-slate-800 transition-colors';
+                            return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
+                        }).join('')}
                     </div>
                 </div>
             </nav>
         `;
     }
 
+    private renderPageHeader(title: string): string {
+        return `
+            <header class="pt-28 pb-10 px-4 sm:px-6 lg:px-8 bg-white">
+                <div class="max-w-6xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-bold text-slate-900">${title}</h1>
+                    <div class="w-24 h-1 bg-slate-800 mt-4"></div>
+                </div>
+            </header>
+        `;
+    }
+
     private renderHero(): string {
         return `
-            <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
-                        Hi, I'm <span class="text-slate-300">Bryce Pannone</span>
-                    </h1>
-                    <p class="text-xl md:text-2xl text-slate-300 mb-8">
-                        Software Developer & Problem Solver
-                    </p>
-                    <p class="text-lg text-slate-400 mb-10 max-w-2xl mx-auto">
-                        Building innovative solutions and creating exceptional digital experiences
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="#contact" class="px-8 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl">
-                            Get In Touch
-                        </a>
-                        <a href="#projects" class="px-8 py-3 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all border-2 border-slate-600">
-                            View My Work
-                        </a>
+            <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+                <div class="max-w-5xl mx-auto">
+                    <div class="text-center">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-slate-200 border border-white/10">
+                            <span class="w-2 h-2 rounded-full bg-slate-200"></span>
+                            <span class="text-sm font-semibold tracking-wide">Software Engineer</span>
+                        </div>
+
+                        <h1 class="mt-6 text-5xl md:text-6xl font-bold text-white">
+                            Bryce <span class="text-slate-300">Pannone</span>
+                        </h1>
+
+                        <p class="mt-6 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto">
+                            I build fast, accessible web experiences with TypeScript and modern tooling.
+                        </p>
+
+                        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="#projects" class="px-8 py-3 bg-white text-slate-950 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl">
+                                View Projects
+                            </a>
+                            <a href="#contact" class="px-8 py-3 bg-slate-800 text-white rounded-lg font-semibold hover:bg-slate-700 transition-all border border-slate-700">
+                                Contact
+                            </a>
+                        </div>
+
+                        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                            ${this.renderHeroStat('Focus', 'Frontend, DX, and performance')}
+                            ${this.renderHeroStat('Stack', 'TypeScript, Tailwind, Docker')}
+                            ${this.renderHeroStat('Style', 'Clean UI, pragmatic engineering')}
+                        </div>
                     </div>
                 </div>
             </section>
         `;
     }
 
+    private renderHeroStat(label: string, value: string): string {
+        return `
+            <div class="rounded-xl bg-white/5 border border-white/10 p-5 text-left">
+                <div class="text-sm text-slate-400">${label}</div>
+                <div class="mt-2 text-slate-100 font-semibold">${value}</div>
+            </div>
+        `;
+    }
+
     private renderAbout(): string {
         return `
-            <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-4xl font-bold text-center mb-4 text-slate-900">About Me</h2>
-                    <div class="w-24 h-1 bg-slate-800 mx-auto mb-12"></div>
-                    <div class="text-center">
-                        <p class="text-gray-700 text-lg leading-relaxed mb-6">
-                            Welcome to my personal website! I'm a passionate software developer dedicated to creating 
-                            clean, efficient, and user-friendly applications. I enjoy tackling complex problems and 
-                            turning them into elegant solutions.
-                        </p>
-                        <p class="text-gray-700 text-lg leading-relaxed">
-                            When I'm not coding, you can find me exploring new technologies, contributing to open-source 
-                            projects, or continuously learning to stay at the forefront of software development.
-                        </p>
+            <section id="about" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-10 items-start">
+                        <div>
+                            <p class="mt-6 text-gray-700 text-lg leading-relaxed">
+                                I enjoy building products that feel simple to use and solid under the hood. I care about
+                                performance, accessibility, and maintainable code.
+                            </p>
+                            <p class="mt-4 text-gray-700 text-lg leading-relaxed">
+                                I like working end-to-end: UI, build tooling, developer experience, and shipping.
+                            </p>
+                        </div>
+                        <div class="rounded-xl border border-slate-200 bg-slate-50 p-8">
+                            <h3 class="text-lg font-bold text-slate-900">What I focus on</h3>
+                            <ul class="mt-4 space-y-3 text-gray-700">
+                                <li class="flex gap-3">
+                                    <span class="mt-2 h-2 w-2 rounded-full bg-slate-700"></span>
+                                    <span>Responsive UI with clear information hierarchy</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="mt-2 h-2 w-2 rounded-full bg-slate-700"></span>
+                                    <span>Type-safe code and predictable architecture</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="mt-2 h-2 w-2 rounded-full bg-slate-700"></span>
+                                    <span>Fast builds and smooth deployments</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+    }
+
+    private renderAboutTeaser(): string {
+        return `
+            <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+                <div class="max-w-6xl mx-auto">
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-8 md:p-10">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                            <div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">About</h2>
+                                <p class="mt-3 text-gray-700 text-lg">
+                                    A bit more about what I value and how I approach building software.
+                                </p>
+                            </div>
+                            <a href="about.html" class="inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                Read About
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -159,27 +255,31 @@ class Website {
 
     private renderSkills(): string {
         const skills: Skill[] = [
-            { name: 'TypeScript', icon: '💻' },
-            { name: 'Tailwind CSS', icon: '🎨' },
-            { name: 'React', icon: '⚛️' },
-            { name: 'Docker', icon: '🐳' },
-            { name: 'Cloud', icon: '☁️' },
-            { name: 'DevOps', icon: '🔧' },
-            { name: 'CI/CD', icon: '📦' },
-            { name: 'Full Stack', icon: '🚀' }
+            { name: 'TypeScript' },
+            { name: 'JavaScript' },
+            { name: 'Tailwind CSS' },
+            { name: 'HTML and CSS' },
+            { name: 'React' },
+            { name: 'Node.js' },
+            { name: 'Docker' },
+            { name: 'CI/CD' }
         ];
 
         const skillCards = skills.map(skill => `
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center border border-slate-200">
-                <div class="text-4xl mb-3">${skill.icon}</div>
-                <h3 class="font-semibold text-slate-900">${skill.name}</h3>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-slate-200">
+                <div class="flex items-center gap-4">
+                    <div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold tracking-wide">
+                        ${this.getInitials(skill.name)}
+                    </div>
+                    <h3 class="font-semibold text-slate-900">${skill.name}</h3>
+                </div>
             </div>
         `).join('');
 
         return `
             <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
                 <div class="max-w-6xl mx-auto">
-                    <h2 class="text-4xl font-bold text-center mb-4 text-slate-900">Skills & Technologies</h2>
+                    <h2 class="text-4xl font-bold text-center mb-4 text-slate-900">Skills</h2>
                     <div class="w-24 h-1 bg-slate-800 mx-auto mb-12"></div>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         ${skillCards}
@@ -189,25 +289,31 @@ class Website {
         `;
     }
 
+    private getInitials(name: string): string {
+        const parts = name
+            .replace(/\./g, '')
+            .split(' ')
+            .filter(Boolean);
+        const initials = parts.map(p => p[0]).join('').slice(0, 2).toUpperCase();
+        return initials || name.slice(0, 2).toUpperCase();
+    }
+
     private renderProjects(): string {
         const projects: Project[] = [
             {
                 title: 'Personal Website',
                 description: 'A modern, responsive personal website built with TypeScript and Tailwind CSS, showcasing clean design and best practices.',
-                icon: '🌐',
                 tags: ['TypeScript', 'Tailwind CSS'],
                 link: 'https://github.com/bpannone/bpannone.github.io'
             },
             {
                 title: 'Coming Soon',
-                description: 'More exciting projects are on the way. Stay tuned for updates!',
-                icon: '🚀',
+                description: 'More projects are on the way. Check back soon for updates.',
                 tags: ['In Progress']
             },
             {
                 title: 'More Projects',
                 description: 'Check back soon for additional projects and case studies.',
-                icon: '💡',
                 tags: ['Coming Soon']
             }
         ];
@@ -218,14 +324,16 @@ class Website {
             ).join('');
 
             const link = project.link 
-                ? `<a href="${project.link}" class="text-slate-800 hover:text-slate-600 font-semibold">View Project →</a>`
+                ? `<a href="${project.link}" class="text-slate-800 hover:text-slate-600 font-semibold">View Project</a>`
                 : '';
 
             return `
                 <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all border border-slate-200">
-                    <div class="text-3xl mb-4">${project.icon}</div>
-                    <h3 class="text-xl font-bold mb-3 text-slate-900">${project.title}</h3>
-                    <p class="text-gray-600 mb-4">${project.description}</p>
+                    <div class="flex items-start justify-between gap-4">
+                        <h3 class="text-xl font-bold text-slate-900">${project.title}</h3>
+                        ${project.link ? `<a href="${project.link}" class="text-sm font-semibold text-slate-800 hover:text-slate-600">GitHub</a>` : ''}
+                    </div>
+                    <p class="text-gray-600 mb-4 mt-3">${project.description}</p>
                     <div class="flex flex-wrap gap-2 mb-4">${tags}</div>
                     ${link}
                 </div>
@@ -248,7 +356,7 @@ class Website {
     private renderContact(): string {
         const contacts: ContactLink[] = [
             {
-                label: 'Email Me',
+                label: 'Email',
                 href: 'mailto:your.email@example.com',
                 icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -292,7 +400,6 @@ class Website {
             <footer class="bg-slate-900 text-slate-400 py-8 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-6xl mx-auto text-center">
                     <p>&copy; ${currentYear} Bryce Pannone. All rights reserved.</p>
-                    <p class="mt-2 text-sm">Built with TypeScript & Tailwind CSS</p>
                 </div>
             </footer>
         `;
