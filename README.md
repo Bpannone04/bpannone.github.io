@@ -5,9 +5,9 @@ A modern static website built with TypeScript and Tailwind CSS, designed to be h
 
 ## Tech Stack
 
-- **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS** - Utility-first CSS framework
-- **Docker** - Optional local development environment (not used for deployment)
+- **TypeScript** 
+- **Tailwind CSS** 
+- **Docker** - Optional local development environment
 
 ## Development Environment
 **Note:** Docker is optional and only used for local development. Build locally and deploy manually to GitHub Pages.
