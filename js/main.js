@@ -448,15 +448,20 @@ class Website {
     initGalleryListeners() {
         const gallery = new GalleryModal();
         
-        // Open gallery buttons
+        // Open gallery buttons - support both click and touch events for mobile
         document.querySelectorAll('[data-gallery-id]').forEach(button => {
-            button.addEventListener('click', (e) => {
+            const openGallery = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const target = e.currentTarget;
                 const galleryId = target.getAttribute('data-gallery-id');
                 if (galleryId) {
                     gallery.open(galleryId);
                 }
-            });
+            };
+            
+            button.addEventListener('click', openGallery);
+            button.addEventListener('touchend', openGallery);
         });
     }
 }

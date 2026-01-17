@@ -89,18 +89,28 @@ export class GalleryModal {
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
 
-        // Close button
+        // Close button - support both click and touch for mobile
         const closeBtn = modal.querySelector('.gallery-close');
         if (closeBtn) {
-            closeBtn.onclick = () => this.close();
+            const closeHandler = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.close();
+            };
+            closeBtn.onclick = closeHandler;
+            closeBtn.addEventListener('touchend', closeHandler);
         }
 
-        // Close on backdrop click
-        modal.onclick = (e) => {
+        // Close on backdrop click/touch - support mobile
+        const backdropHandler = (e) => {
             if (e.target === modal) {
+                e.preventDefault();
+                e.stopPropagation();
                 this.close();
             }
         };
+        modal.onclick = backdropHandler;
+        modal.addEventListener('touchend', backdropHandler);
 
         // Initialize navigation
         this.initNavigation();
@@ -172,17 +182,35 @@ export class GalleryModal {
             }
         };
 
-        // Navigation buttons
+        // Navigation buttons - support both click and touch for mobile
         if (prevBtn) {
-            prevBtn.onclick = () => showSlide(this.currentSlide - 1);
+            const prevHandler = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showSlide(this.currentSlide - 1);
+            };
+            prevBtn.onclick = prevHandler;
+            prevBtn.addEventListener('touchend', prevHandler);
         }
         if (nextBtn) {
-            nextBtn.onclick = () => showSlide(this.currentSlide + 1);
+            const nextHandler = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showSlide(this.currentSlide + 1);
+            };
+            nextBtn.onclick = nextHandler;
+            nextBtn.addEventListener('touchend', nextHandler);
         }
 
-        // Dots
+        // Dots - support both click and touch for mobile
         dots.forEach((dot, idx) => {
-            dot.onclick = () => showSlide(idx);
+            const dotHandler = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showSlide(idx);
+            };
+            dot.onclick = dotHandler;
+            dot.addEventListener('touchend', dotHandler);
         });
 
         // Keyboard navigation
