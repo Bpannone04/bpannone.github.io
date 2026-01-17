@@ -1,5 +1,7 @@
 // Main TypeScript file for https://bpannone.com
 
+import { GalleryModal } from './gallery-modal.js';
+
 interface NavItem {
     label: string;
     href: string;
@@ -14,6 +16,7 @@ interface Project {
     description: string;
     tags: string[];
     link?: string;
+    gallery?: string[];
 }
 
 interface ContactLink {
@@ -24,7 +27,6 @@ interface ContactLink {
 
 class Website {
     private app: HTMLElement;
-    private page: 'home' | 'about';
     
     constructor() {
         const appElement = document.getElementById('app');
@@ -32,19 +34,12 @@ class Website {
             throw new Error('App element not found');
         }
         this.app = appElement;
-        this.page = this.getPage();
     }
 
     init(): void {
         this.checkDevelopmentEnvironment();
         this.render();
         this.initEventListeners();
-    }
-
-    private getPage(): 'home' | 'about' {
-        const pageAttr = document.body.getAttribute('data-page');
-        if (pageAttr === 'about') return 'about';
-        return 'home';
     }
 
     private checkDevelopmentEnvironment(): void {
@@ -66,16 +61,6 @@ class Website {
     }
 
     private render(): void {
-        if (this.page === 'about') {
-            this.app.innerHTML = `
-                ${this.renderNavigation()}
-                ${this.renderPageHeader('About')}
-                ${this.renderAbout()}
-                ${this.renderFooter()}
-            `;
-            return;
-        }
-
         // Home page
         this.app.innerHTML = `
             ${this.renderNavigation()}
@@ -96,7 +81,7 @@ class Website {
             { label: 'Contact', href: 'index.html#contact' }
         ];
 
-        const activeHref = this.page === 'about' ? 'about.html' : 'index.html';
+        const activeHref = 'index.html';
 
         const navLinks = navItems.map(item => {
             const isActive = item.href === activeHref;
@@ -136,16 +121,6 @@ class Website {
         `;
     }
 
-    private renderPageHeader(title: string): string {
-        return `
-            <header class="pt-28 pb-10 px-4 sm:px-6 lg:px-8 bg-white">
-                <div class="max-w-6xl mx-auto">
-                    <h1 class="text-4xl md:text-5xl font-bold text-slate-900">${title}</h1>
-                    <div class="w-24 h-1 bg-slate-800 mt-4"></div>
-                </div>
-            </header>
-        `;
-    }
 
     private renderHero(): string {
         return `
@@ -154,30 +129,30 @@ class Website {
                     <div class="text-center">
                         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-slate-200 border border-white/10">
                             <span class="w-2 h-2 rounded-full bg-slate-200"></span>
-                            <span class="text-sm font-semibold tracking-wide">Software Engineer</span>
+                            <span class="text-sm font-semibold tracking-wide">Software Developer</span>
                         </div>
 
-                        <h1 class="mt-6 text-5xl md:text-6xl font-bold text-white">
+                        <h1 class="mt-6 text-4xl sm:text-5xl md:text-6xl font-bold text-white">
                             Bryce <span class="text-slate-300">Pannone</span>
                         </h1>
 
-                        <p class="mt-6 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto">
-                            I build fast, accessible web experiences with TypeScript and modern tooling.
+                        <p class="mt-6 text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto px-4">
+                            Experienced in turning system requirements into user-focused solutions. Seeking to apply my programming and problem-solving skills across various domains of computing and technology.
                         </p>
 
-                        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="#projects" class="px-8 py-3 bg-white text-slate-950 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl">
-                                View Projects
-                            </a>
-                            <a href="#contact" class="px-8 py-3 bg-slate-800 text-white rounded-lg font-semibold hover:bg-slate-700 transition-all border border-slate-700">
-                                Contact
-                            </a>
-                        </div>
+                    <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center px-4">
+                        <a href="#projects" class="px-6 sm:px-8 py-3 bg-white text-slate-950 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base">
+                            View Projects
+                        </a>
+                        <a href="#contact" class="px-6 sm:px-8 py-3 bg-slate-800 text-white rounded-lg font-semibold hover:bg-slate-700 transition-all border border-slate-700 text-sm sm:text-base">
+                            Contact
+                        </a>
+                    </div>
 
-                        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                            ${this.renderHeroStat('Focus', 'Frontend, DX, and performance')}
-                            ${this.renderHeroStat('Stack', 'TypeScript, Tailwind, Docker')}
-                            ${this.renderHeroStat('Style', 'Clean UI, pragmatic engineering')}
+                        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto px-4">
+                            ${this.renderHeroStat('Education', 'Frostburg State University')}
+                            ${this.renderHeroStat('Focus', 'Full-stack development')}
+                            ${this.renderHeroStat('Location', 'Cumberland, MD')}
                         </div>
                     </div>
                 </div>
@@ -194,56 +169,17 @@ class Website {
         `;
     }
 
-    private renderAbout(): string {
-        return `
-            <section id="about" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-                <div class="max-w-6xl mx-auto">
-                    <div class="grid md:grid-cols-2 gap-10 items-start">
-                        <div>
-                            <p class="mt-6 text-gray-700 text-lg leading-relaxed">
-                                I enjoy building products that feel simple to use and solid under the hood. I care about
-                                performance, accessibility, and maintainable code.
-                            </p>
-                            <p class="mt-4 text-gray-700 text-lg leading-relaxed">
-                                I like working end-to-end: UI, build tooling, developer experience, and shipping.
-                            </p>
-                        </div>
-                        <div class="rounded-xl border border-slate-200 bg-slate-50 p-8">
-                            <h3 class="text-lg font-bold text-slate-900">What I focus on</h3>
-                            <ul class="mt-4 space-y-3 text-gray-700">
-                                <li class="flex gap-3">
-                                    <span class="mt-2 h-2 w-2 rounded-full bg-slate-700"></span>
-                                    <span>Responsive UI with clear information hierarchy</span>
-                                </li>
-                                <li class="flex gap-3">
-                                    <span class="mt-2 h-2 w-2 rounded-full bg-slate-700"></span>
-                                    <span>Type-safe code and predictable architecture</span>
-                                </li>
-                                <li class="flex gap-3">
-                                    <span class="mt-2 h-2 w-2 rounded-full bg-slate-700"></span>
-                                    <span>Fast builds and smooth deployments</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        `;
-    }
-
     private renderAboutTeaser(): string {
         return `
             <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-                <div class="max-w-6xl mx-auto">
-                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-8 md:p-10">
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                            <div>
-                                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">About</h2>
-                                <p class="mt-3 text-gray-700 text-lg">
-                                    A bit more about what I value and how I approach building software.
-                                </p>
-                            </div>
-                            <a href="about.html" class="inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                <div class="max-w-6xl mx-auto flex justify-center">
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-6 md:p-8">
+                        <div class="text-center">
+                            <h2 class="text-2xl md:text-3xl font-bold text-slate-900">About</h2>
+                            <p class="mt-3 text-gray-600 max-w-md mx-auto">
+                                Learn more about my background, education, and professional experience in software development.
+                            </p>
+                            <a href="about.html" class="inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors mt-4">
                                 Read About
                             </a>
                         </div>
@@ -255,21 +191,29 @@ class Website {
 
     private renderSkills(): string {
         const skills: Skill[] = [
-            { name: 'TypeScript' },
+            { name: 'Java' },
+            { name: 'Python' },
+            { name: 'C' },
+            { name: 'C++' },
+            { name: 'PHP' },
+            { name: 'CakePHP' },
             { name: 'JavaScript' },
-            { name: 'Tailwind CSS' },
-            { name: 'HTML and CSS' },
-            { name: 'React' },
             { name: 'Node.js' },
-            { name: 'Docker' },
-            { name: 'CI/CD' }
+            { name: 'React' },
+            { name: 'Tailwind CSS' },
+            { name: 'TypeScript' },
+            { name: 'HTML' },
+            { name: 'CSS' },
+            { name: 'SQL' },
+            { name: 'WebSockets' },
+            { name: 'Git' }
         ];
 
         const skillCards = skills.map(skill => `
             <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-slate-200">
                 <div class="flex items-center gap-4">
-                    <div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold tracking-wide">
-                        ${this.getInitials(skill.name)}
+                    <div class="h-10 w-10 rounded-lg flex items-center justify-center shrink-0">
+                        ${this.getSkillIcon(skill.name)}
                     </div>
                     <h3 class="font-semibold text-slate-900">${skill.name}</h3>
                 </div>
@@ -279,9 +223,9 @@ class Website {
         return `
             <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
                 <div class="max-w-6xl mx-auto">
-                    <h2 class="text-4xl font-bold text-center mb-4 text-slate-900">Skills</h2>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-4 text-slate-900">Skills</h2>
                     <div class="w-24 h-1 bg-slate-800 mx-auto mb-12"></div>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-6">
                         ${skillCards}
                     </div>
                 </div>
@@ -298,27 +242,62 @@ class Website {
         return initials || name.slice(0, 2).toUpperCase();
     }
 
+    private getSkillIcon(skillName: string): string {
+        const logoMap: Record<string, string> = {
+            'Java': 'https://api.iconify.design/logos/java.svg',
+            'Python': 'https://api.iconify.design/logos/python.svg',
+            'C': 'https://api.iconify.design/logos/c.svg',
+            'C++': 'https://api.iconify.design/logos/c-plusplus.svg',
+            'PHP': 'https://api.iconify.design/logos/php.svg',
+            'CakePHP': 'https://api.iconify.design/logos/cakephp.svg',
+            'JavaScript': 'https://api.iconify.design/logos/javascript.svg',
+            'Node.js': 'https://api.iconify.design/logos/nodejs-icon.svg',
+            'React': 'https://api.iconify.design/logos/react.svg',
+            'Tailwind CSS': 'https://api.iconify.design/logos/tailwindcss-icon.svg',
+            'TypeScript': 'https://api.iconify.design/logos/typescript-icon.svg',
+            'HTML': 'https://api.iconify.design/logos/html-5.svg',
+            'CSS': 'https://api.iconify.design/logos/css-3.svg',
+            'SQL': 'https://api.iconify.design/vscode-icons/file-type-sql.svg',
+            'WebSockets': 'https://api.iconify.design/logos/websocket.svg',
+            'Git': 'https://api.iconify.design/logos/git-icon.svg'
+        };
+        const logoUrl = logoMap[skillName];
+        if (logoUrl) {
+            return `<img src="${logoUrl}" alt="${skillName}" class="h-10 w-10 object-contain" />`;
+        }
+        return `<div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold tracking-wide">${this.getInitials(skillName)}</div>`;
+    }
+
     private renderProjects(): string {
         const projects: Project[] = [
             {
-                title: 'Personal Website',
-                description: 'A modern, responsive personal website built with TypeScript and Tailwind CSS, showcasing clean design and best practices.',
+                title: 'Gym Management Software',
+                description: 'Designed and built an application for managing Gyms. Utilized JavaScript and Node.js, along with MySQL for the database. Designed the database to follow business rules and properly configured all tables and keys.',
+                tags: ['JavaScript', 'Node.js', 'MySQL'],
+                gallery: [
+                    'images/GymManagement/home-screen.png',
+                    'images/GymManagement/user-dashboard.png',
+                    'images/GymManagement/user-notifications.png',
+                    'images/GymManagement/manager-dashboard.png',
+                    'images/GymManagement/manager-user-information-dashboard.png',
+                    'images/GymManagement/manager-classes-dashboard.png',
+                    'images/GymManagement/manager-rooms-dashboard.png',
+                    'images/GymManagement/manager-notifications-dashboard.png',
+                ]
+            },
+            {
+                title: 'Real-Time Chat Webpage',
+                description: 'Designed and built a real-time chat website that utilized JavaScript for the front end and Python for the back end. Utilized WebSockets for real-time messaging and designed a system to log chats so users could retrieve previous chat data.',
+                tags: ['JavaScript', 'Python', 'WebSockets'],
+            },
+            {
+                title: 'Personal Portfolio Website',
+                description: 'This personal website uses TypeScript and Tailwind CSS to create a modern, responsive design. It highlights clean layouts, follows best practices, and includes dynamic content, image galleries, and a layout that works well on any device.',
                 tags: ['TypeScript', 'Tailwind CSS'],
-                link: 'https://github.com/bpannone/bpannone.github.io'
-            },
-            {
-                title: 'Coming Soon',
-                description: 'More projects are on the way. Check back soon for updates.',
-                tags: ['In Progress']
-            },
-            {
-                title: 'More Projects',
-                description: 'Check back soon for additional projects and case studies.',
-                tags: ['Coming Soon']
             }
         ];
 
-        const projectCards = projects.map(project => {
+        const projectCards = projects.map((project, index) => {
             const tags = project.tags.map(tag => 
                 `<span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">${tag}</span>`
             ).join('');
@@ -327,15 +306,26 @@ class Website {
                 ? `<a href="${project.link}" class="text-slate-800 hover:text-slate-600 font-semibold">View Project</a>`
                 : '';
 
+            const galleryButton = project.gallery
+                ? `<button data-gallery-id="gallery-${index}" class="mt-3 px-5 sm:px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-all shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 duration-200 text-sm sm:text-base">
+                    View Gallery
+                    <span class="inline-block ml-2">→</span>
+                </button>`
+                : '';
+
             return `
-                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all border border-slate-200">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md hover:shadow-xl transition-all border border-slate-200">
                     <div class="flex items-start justify-between gap-4">
-                        <h3 class="text-xl font-bold text-slate-900">${project.title}</h3>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-900">${project.title}</h3>
                         ${project.link ? `<a href="${project.link}" class="text-sm font-semibold text-slate-800 hover:text-slate-600">GitHub</a>` : ''}
                     </div>
-                    <p class="text-gray-600 mb-4 mt-3">${project.description}</p>
+                    <p class="text-sm sm:text-base text-gray-600 mb-4 mt-3">${project.description}</p>
                     <div class="flex flex-wrap gap-2 mb-4">${tags}</div>
-                    ${link}
+                    <div class="flex flex-wrap gap-3">
+                        ${link}
+                        ${galleryButton}
+                    </div>
+                    ${project.gallery ? GalleryModal.render(`gallery-${index}`, project.title, project.gallery) : ''}
                 </div>
             `;
         }).join('');
@@ -343,9 +333,9 @@ class Website {
         return `
             <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
                 <div class="max-w-6xl mx-auto">
-                    <h2 class="text-4xl font-bold text-center mb-4 text-slate-900">Projects</h2>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-4 text-slate-900">Projects</h2>
                     <div class="w-24 h-1 bg-slate-800 mx-auto mb-12"></div>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                         ${projectCards}
                     </div>
                 </div>
@@ -357,33 +347,50 @@ class Website {
         const contacts: ContactLink[] = [
             {
                 label: 'Email',
-                href: 'mailto:your.email@example.com',
+                href: 'mailto:bryce5252@outlook.com',
                 icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>`
             },
             {
                 label: 'GitHub',
-                href: 'https://github.com/bpannone',
+                href: 'https://github.com/Bpannone04',
                 icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>`
+            },
+            {
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/in/bpannone04',
+                icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>`
+            },
+            {
+                label: 'Download Resume',
+                href: 'files/Bryce Pannone- Resume 2025.pdf',
+                icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>`
             }
         ];
 
-        const contactButtons = contacts.map(contact => `
-            <a href="${contact.href}" class="px-8 py-4 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+        const contactButtons = contacts.map(contact => {
+            const isDownload = contact.label === 'Download Resume';
+            return `
+            <a href="${contact.href}" ${isDownload ? 'download' : ''} class="px-6 sm:px-8 py-3 sm:py-4 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-sm sm:text-base">
                 ${contact.icon}
                 ${contact.label}
             </a>
-        `).join('');
+        `;
+        }).join('');
 
         return `
             <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
                 <div class="max-w-4xl mx-auto text-center">
-                    <h2 class="text-4xl font-bold text-white mb-4">Get In Touch</h2>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Get In Touch</h2>
                     <div class="w-24 h-1 bg-slate-300 mx-auto mb-12"></div>
-                    <p class="text-xl text-slate-300 mb-10">
+                    <p class="text-lg sm:text-xl text-slate-300 mb-10 px-4">
                         I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-6 justify-center">
@@ -393,6 +400,7 @@ class Website {
             </section>
         `;
     }
+
 
     private renderFooter(): string {
         const currentYear = new Date().getFullYear();
@@ -457,6 +465,24 @@ class Website {
                 }
             });
         }
+
+        // Gallery modals
+        this.initGalleryListeners();
+    }
+
+    private initGalleryListeners(): void {
+        const gallery = new GalleryModal();
+        
+        // Open gallery buttons
+        document.querySelectorAll('[data-gallery-id]').forEach(button => {
+            button.addEventListener('click', (e: Event) => {
+                const target = e.currentTarget as HTMLElement;
+                const galleryId = target.getAttribute('data-gallery-id');
+                if (galleryId) {
+                    gallery.open(galleryId);
+                }
+            });
+        });
     }
 }
 

@@ -21,10 +21,12 @@ FROM nginx:alpine
 # Copy built files from builder stage (from root, not dist)
 # Includes index.html and any additional pages like about.html
 COPY --from=builder /app/*.html /usr/share/nginx/html/
+COPY --from=builder /app/favicon.svg /usr/share/nginx/html/favicon.svg
 COPY --from=builder /app/css /usr/share/nginx/html/css
 COPY --from=builder /app/js /usr/share/nginx/html/js
-# Copy CNAME if it exists (optional)
-COPY --from=builder /app/CNAME /usr/share/nginx/html/CNAME
+COPY --from=builder /app/images /usr/share/nginx/html/images
+# Copy files directory (resume, etc.)
+COPY --from=builder /app/files /usr/share/nginx/html/files
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf

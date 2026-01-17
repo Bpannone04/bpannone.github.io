@@ -35,29 +35,6 @@ View at `http://localhost:8080`
 - Edit files in `src/`
 - Rebuild container to see changes: `docker-compose up --build`
 
-### Project Structure
-
-```
-.
-├── src/                    # Source files
-│   ├── ts/                # TypeScript source files
-│   │   └── main.ts
-│   ├── css/               # CSS source files
-│   │   └── input.css      # Tailwind CSS input
-│   └── index.html         # Main HTML file
-├── dist/                  # Built files (generated)
-│   ├── css/
-│   │   └── styles.css     # Compiled Tailwind CSS
-│   ├── js/
-│   │   └── main.js        # Compiled TypeScript
-│   └── index.html
-├── package.json           # Node.js dependencies
-├── tsconfig.json          # TypeScript configuration
-├── tailwind.config.js     # Tailwind CSS configuration
-└── Dockerfile             # Production Docker image
-```
-
-
 ### Deploying to GitHub Pages
 
 Merge `develop` branch into `main` - GitHub Pages automatically deploys from root.
