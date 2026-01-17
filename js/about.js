@@ -94,8 +94,8 @@ class AboutPage {
         return `
             <section id="about" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
                 <div class="max-w-6xl mx-auto">
-                    <div class="grid md:grid-cols-2 gap-10 items-start">
-                        <div class="flex items-center justify-center">
+                    <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
+                        <div class="flex items-center justify-center mb-6 md:mb-0">
                             <div class="relative max-w-sm w-full">
                                 <img src="images/Headshot.png" alt="Bryce Pannone" class="w-full rounded-2xl shadow-xl object-cover aspect-[3/4] border-4 border-slate-100 hover:shadow-2xl transition-shadow duration-300" />
                             </div>
