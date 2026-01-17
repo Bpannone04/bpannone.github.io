@@ -1,5 +1,5 @@
+"use strict";
 // About page TypeScript file for https://bpannone.com
-
 class AboutPage {
     constructor() {
         const appElement = document.getElementById('app');
@@ -8,31 +8,26 @@ class AboutPage {
         }
         this.app = appElement;
     }
-
     init() {
         this.checkDevelopmentEnvironment();
         this.render();
         this.initEventListeners();
     }
-
     checkDevelopmentEnvironment() {
         const hostname = window.location.hostname;
         const port = window.location.port;
-        const isDevelopment = (hostname === 'localhost' || hostname === '127.0.0.1') && 
-                                       port === '8080';
-        
+        const isDevelopment = (hostname === 'localhost' || hostname === '127.0.0.1') &&
+            port === '8080';
         if (isDevelopment) {
             this.showDevelopmentBanner();
         }
     }
-
     showDevelopmentBanner() {
         const banner = document.createElement('div');
         banner.className = 'fixed bottom-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md';
         banner.textContent = 'DEVELOPMENT ENVIRONMENT NOT PRODUCTION';
         document.body.appendChild(banner);
     }
-
     render() {
         this.app.innerHTML = `
             ${this.renderNavigation()}
@@ -41,7 +36,6 @@ class AboutPage {
             ${this.renderFooter()}
         `;
     }
-
     renderNavigation() {
         const navItems = [
             { label: 'Home', href: 'index.html' },
@@ -49,9 +43,7 @@ class AboutPage {
             { label: 'Projects', href: 'index.html#projects' },
             { label: 'Contact', href: 'index.html#contact' }
         ];
-
         const activeHref = 'about.html';
-
         const navLinks = navItems.map(item => {
             const isActive = item.href === activeHref;
             const classes = isActive
@@ -59,7 +51,6 @@ class AboutPage {
                 : 'nav-link text-gray-700 hover:text-slate-800 transition-colors';
             return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
         }).join('');
-
         return `
             <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,18 +69,17 @@ class AboutPage {
                 <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
                     <div class="px-4 py-4 space-y-4">
                         ${navItems.map(item => {
-                            const isActive = item.href === activeHref;
-                            const classes = isActive
-                                ? 'block text-slate-900 font-semibold'
-                                : 'block text-gray-700 hover:text-slate-800 transition-colors';
-                            return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
-                        }).join('')}
+            const isActive = item.href === activeHref;
+            const classes = isActive
+                ? 'block text-slate-900 font-semibold'
+                : 'block text-gray-700 hover:text-slate-800 transition-colors';
+            return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
+        }).join('')}
                     </div>
                 </div>
             </nav>
         `;
     }
-
     renderPageHeader(title) {
         return `
             <header class="pt-28 pb-10 px-4 sm:px-6 lg:px-8 bg-white">
@@ -100,7 +90,6 @@ class AboutPage {
             </header>
         `;
     }
-
     renderAbout() {
         return `
             <section id="about" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
@@ -163,7 +152,6 @@ class AboutPage {
             </section>
         `;
     }
-
     renderFooter() {
         const currentYear = new Date().getFullYear();
         return `
@@ -174,7 +162,6 @@ class AboutPage {
             </footer>
         `;
     }
-
     initEventListeners() {
         // Smooth scrolling
         const links = document.querySelectorAll('a[href^="#"]');
@@ -182,19 +169,16 @@ class AboutPage {
             link.addEventListener('click', (e) => {
                 const target = e.target;
                 const href = target.getAttribute('href');
-                
                 if (href && href !== '#') {
                     e.preventDefault();
                     const targetId = href.substring(1);
                     const targetElement = document.getElementById(targetId);
-                    
                     if (targetElement) {
                         const offsetTop = targetElement.offsetTop - 80;
                         window.scrollTo({
                             top: offsetTop,
                             behavior: 'smooth'
                         });
-                        
                         const mobileMenu = document.getElementById('mobile-menu');
                         if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                             mobileMenu.classList.add('hidden');
@@ -203,17 +187,14 @@ class AboutPage {
                 }
             });
         });
-
         // Mobile menu
         const menuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        
         if (menuButton && mobileMenu) {
             menuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
         }
-
         // Scroll effect on nav
         const nav = document.querySelector('nav');
         if (nav) {
@@ -221,7 +202,8 @@ class AboutPage {
                 if (window.scrollY > 50) {
                     nav.classList.add('shadow-lg');
                     nav.classList.remove('shadow-sm');
-                } else {
+                }
+                else {
                     nav.classList.remove('shadow-lg');
                     nav.classList.add('shadow-sm');
                 }
@@ -229,10 +211,8 @@ class AboutPage {
         }
     }
 }
-
 // Initialize the about page when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     const aboutPage = new AboutPage();
     aboutPage.init();
 });
-

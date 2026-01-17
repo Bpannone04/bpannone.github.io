@@ -17,8 +17,22 @@ else
     
     # Test if nginx can read files - if not, fall back to root
     if [ -f /usr/share/nginx/html/index.html ]; then
-        # Use a simple test: try to cat as nginx user via su
-        if ! su nginx -s /bin/sh -c "test -r /usr/share/nginx/html/index.html" 2>/dev/null; then
+        # Use a simple test: try to read as nginx user
+        # BusyBox su doesn't support -s flag, so we use su-exec if available, or su without -s
+        PERM_TEST_FAILED=true
+        if command -v su-exec >/dev/null 2>&1; then
+            # Try su-exec (preferred for Alpine Linux)
+            if su-exec nginx test -r /usr/share/nginx/html/index.html 2>/dev/null; then
+                PERM_TEST_FAILED=false
+            fi
+        else
+            # Fall back to su without -s flag (BusyBox compatible)
+            if su nginx -c "test -r /usr/share/nginx/html/index.html" 2>/dev/null; then
+                PERM_TEST_FAILED=false
+            fi
+        fi
+        
+        if [ "$PERM_TEST_FAILED" = "true" ]; then
             echo "Warning: nginx user cannot read files. Running as root for compatibility."
             sed -i 's/^user nginx;/user root;/' /etc/nginx/nginx.conf
         fi
@@ -27,3 +41,4 @@ fi
 
 # Start nginx
 exec nginx -g "daemon off;"
+
