@@ -407,7 +407,10 @@ class Website {
     initGalleryListeners() {
         const gallery = new GalleryModal();
         // Open gallery buttons - support both click and touch events for mobile
+        // Use touchstart to handle mobile, click for desktop (avoid double-firing)
         document.querySelectorAll('[data-gallery-id]').forEach(button => {
+            let touchStarted = false;
+            
             const openGallery = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -417,8 +420,26 @@ class Website {
                     gallery.open(galleryId);
                 }
             };
-            button.addEventListener('click', openGallery);
-            button.addEventListener('touchend', openGallery);
+            
+            // Handle touch events for mobile
+            button.addEventListener('touchstart', (e) => {
+                touchStarted = true;
+                // Small delay to allow click to be prevented if touch continues
+                setTimeout(() => {
+                    if (touchStarted) {
+                        openGallery(e);
+                        touchStarted = false;
+                    }
+                }, 100);
+            }, { passive: false });
+            
+            // Handle click events for desktop (and as fallback)
+            button.addEventListener('click', (e) => {
+                if (!touchStarted) {
+                    openGallery(e);
+                }
+                touchStarted = false;
+            });
         });
     }
 }

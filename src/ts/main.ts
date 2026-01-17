@@ -475,18 +475,35 @@ class Website {
         
         // Open gallery buttons - support both click and touch events for mobile
         document.querySelectorAll('[data-gallery-id]').forEach(button => {
+            let touchHandled = false;
+            
             const openGallery = (e: Event) => {
                 e.preventDefault();
                 e.stopPropagation();
                 const target = e.currentTarget as HTMLElement;
                 const galleryId = target.getAttribute('data-gallery-id');
-                if (galleryId) {
+                if (galleryId && !touchHandled) {
+                    touchHandled = true;
                     gallery.open(galleryId);
+                    // Reset flag after a short delay
+                    setTimeout(() => { touchHandled = false; }, 300);
                 }
             };
             
+            // Handle touch events for mobile - use touchstart to prevent click
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent click from firing
+                const target = e.currentTarget as HTMLElement;
+                const galleryId = target.getAttribute('data-gallery-id');
+                if (galleryId && !touchHandled) {
+                    touchHandled = true;
+                    gallery.open(galleryId);
+                    setTimeout(() => { touchHandled = false; }, 300);
+                }
+            }, { passive: false });
+            
+            // Handle click events for desktop
             button.addEventListener('click', openGallery);
-            button.addEventListener('touchend', openGallery);
         });
     }
 }
