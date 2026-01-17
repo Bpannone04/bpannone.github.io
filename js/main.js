@@ -1,7 +1,5 @@
 // Main TypeScript file for https://bpannone.com
-
 import { GalleryModal } from './gallery-modal.js';
-
 class Website {
     constructor() {
         const appElement = document.getElementById('app');
@@ -10,31 +8,26 @@ class Website {
         }
         this.app = appElement;
     }
-
     init() {
         this.checkDevelopmentEnvironment();
         this.render();
         this.initEventListeners();
     }
-
     checkDevelopmentEnvironment() {
         const hostname = window.location.hostname;
         const port = window.location.port;
-        const isDevelopment = (hostname === 'localhost' || hostname === '127.0.0.1') && 
-                                       port === '8080';
-        
+        const isDevelopment = (hostname === 'localhost' || hostname === '127.0.0.1') &&
+            port === '8080';
         if (isDevelopment) {
             this.showDevelopmentBanner();
         }
     }
-
     showDevelopmentBanner() {
         const banner = document.createElement('div');
         banner.className = 'fixed bottom-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md';
         banner.textContent = 'DEVELOPMENT ENVIRONMENT NOT PRODUCTION';
         document.body.appendChild(banner);
     }
-
     render() {
         // Home page
         this.app.innerHTML = `
@@ -47,7 +40,6 @@ class Website {
             ${this.renderFooter()}
         `;
     }
-
     renderNavigation() {
         const navItems = [
             { label: 'Home', href: 'index.html' },
@@ -55,9 +47,7 @@ class Website {
             { label: 'Projects', href: 'index.html#projects' },
             { label: 'Contact', href: 'index.html#contact' }
         ];
-
         const activeHref = 'index.html';
-
         const navLinks = navItems.map(item => {
             const isActive = item.href === activeHref;
             const classes = isActive
@@ -65,7 +55,6 @@ class Website {
                 : 'nav-link text-gray-700 hover:text-slate-800 transition-colors';
             return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
         }).join('');
-
         return `
             <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,19 +73,17 @@ class Website {
                 <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
                     <div class="px-4 py-4 space-y-4">
                         ${navItems.map(item => {
-                            const isActive = item.href === activeHref;
-                            const classes = isActive
-                                ? 'block text-slate-900 font-semibold'
-                                : 'block text-gray-700 hover:text-slate-800 transition-colors';
-                            return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
-                        }).join('')}
+            const isActive = item.href === activeHref;
+            const classes = isActive
+                ? 'block text-slate-900 font-semibold'
+                : 'block text-gray-700 hover:text-slate-800 transition-colors';
+            return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
+        }).join('')}
                     </div>
                 </div>
             </nav>
         `;
     }
-
-
     renderHero() {
         return `
             <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
@@ -134,7 +121,6 @@ class Website {
             </section>
         `;
     }
-
     renderHeroStat(label, value) {
         return `
             <div class="rounded-xl bg-white/5 border border-white/10 p-5 text-left">
@@ -143,7 +129,6 @@ class Website {
             </div>
         `;
     }
-
     renderAboutTeaser() {
         return `
             <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
@@ -163,7 +148,6 @@ class Website {
             </section>
         `;
     }
-
     renderSkills() {
         const skills = [
             { name: 'Java' },
@@ -183,7 +167,6 @@ class Website {
             { name: 'WebSockets' },
             { name: 'Git' }
         ];
-
         const skillCards = skills.map(skill => `
             <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-slate-200">
                 <div class="flex items-center gap-4">
@@ -194,7 +177,6 @@ class Website {
                 </div>
             </div>
         `).join('');
-
         return `
             <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
                 <div class="max-w-6xl mx-auto">
@@ -207,7 +189,6 @@ class Website {
             </section>
         `;
     }
-
     getInitials(name) {
         const parts = name
             .replace(/\./g, '')
@@ -216,7 +197,6 @@ class Website {
         const initials = parts.map(p => p[0]).join('').slice(0, 2).toUpperCase();
         return initials || name.slice(0, 2).toUpperCase();
     }
-
     getSkillIcon(skillName) {
         const logoMap = {
             'Java': 'https://api.iconify.design/logos/java.svg',
@@ -242,7 +222,6 @@ class Website {
         }
         return `<div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold tracking-wide">${this.getInitials(skillName)}</div>`;
     }
-
     renderProjects() {
         const projects = [
             {
@@ -271,23 +250,17 @@ class Website {
                 tags: ['TypeScript', 'Tailwind CSS'],
             }
         ];
-
         const projectCards = projects.map((project, index) => {
-            const tags = project.tags.map(tag => 
-                `<span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">${tag}</span>`
-            ).join('');
-
-            const link = project.link 
+            const tags = project.tags.map(tag => `<span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">${tag}</span>`).join('');
+            const link = project.link
                 ? `<a href="${project.link}" class="text-slate-800 hover:text-slate-600 font-semibold">View Project</a>`
                 : '';
-
             const galleryButton = project.gallery
                 ? `<button data-gallery-id="gallery-${index}" class="mt-3 px-5 sm:px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-all shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 duration-200 text-sm sm:text-base">
                     View Gallery
                     <span class="inline-block ml-2">→</span>
                 </button>`
                 : '';
-
             return `
                 <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md hover:shadow-xl transition-all border border-slate-200">
                     <div class="flex items-start justify-between gap-4">
@@ -304,7 +277,6 @@ class Website {
                 </div>
             `;
         }).join('');
-
         return `
             <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
                 <div class="max-w-6xl mx-auto">
@@ -317,7 +289,6 @@ class Website {
             </section>
         `;
     }
-
     renderContact() {
         const contacts = [
             {
@@ -349,7 +320,6 @@ class Website {
                 </svg>`
             }
         ];
-
         const contactButtons = contacts.map(contact => {
             const isDownload = contact.label === 'Download Resume';
             return `
@@ -359,7 +329,6 @@ class Website {
             </a>
         `;
         }).join('');
-
         return `
             <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
                 <div class="max-w-4xl mx-auto text-center">
@@ -375,8 +344,6 @@ class Website {
             </section>
         `;
     }
-
-
     renderFooter() {
         const currentYear = new Date().getFullYear();
         return `
@@ -387,7 +354,6 @@ class Website {
             </footer>
         `;
     }
-
     initEventListeners() {
         // Smooth scrolling
         const links = document.querySelectorAll('a[href^="#"]');
@@ -395,19 +361,16 @@ class Website {
             link.addEventListener('click', (e) => {
                 const target = e.target;
                 const href = target.getAttribute('href');
-                
                 if (href && href !== '#') {
                     e.preventDefault();
                     const targetId = href.substring(1);
                     const targetElement = document.getElementById(targetId);
-                    
                     if (targetElement) {
                         const offsetTop = targetElement.offsetTop - 80;
                         window.scrollTo({
                             top: offsetTop,
                             behavior: 'smooth'
                         });
-                        
                         const mobileMenu = document.getElementById('mobile-menu');
                         if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                             mobileMenu.classList.add('hidden');
@@ -416,17 +379,14 @@ class Website {
                 }
             });
         });
-
         // Mobile menu
         const menuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        
         if (menuButton && mobileMenu) {
             menuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
         }
-
         // Scroll effect on nav
         const nav = document.querySelector('nav');
         if (nav) {
@@ -434,20 +394,18 @@ class Website {
                 if (window.scrollY > 50) {
                     nav.classList.add('shadow-lg');
                     nav.classList.remove('shadow-sm');
-                } else {
+                }
+                else {
                     nav.classList.remove('shadow-lg');
                     nav.classList.add('shadow-sm');
                 }
             });
         }
-
         // Gallery modals
         this.initGalleryListeners();
     }
-
     initGalleryListeners() {
         const gallery = new GalleryModal();
-        
         // Open gallery buttons - support both click and touch events for mobile
         document.querySelectorAll('[data-gallery-id]').forEach(button => {
             const openGallery = (e) => {
@@ -459,13 +417,11 @@ class Website {
                     gallery.open(galleryId);
                 }
             };
-            
             button.addEventListener('click', openGallery);
             button.addEventListener('touchend', openGallery);
         });
     }
 }
-
 // Initialize the website when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     const website = new Website();

@@ -1,23 +1,19 @@
 // Gallery Modal class for displaying project image galleries
-
 export class GalleryModal {
     constructor() {
         this.currentSlide = 0;
         this.galleryId = '';
-        this.keyHandler = undefined;
     }
-
     static render(id, title, images) {
         const imageItems = images.map((img, idx) => {
             // Replace spaces with %20 for proper URL encoding
             const encodedPath = img.replace(/\s/g, '%20');
-                return `
+            return `
                 <div class="gallery-slide ${idx === 0 ? 'active' : ''} flex items-center justify-center w-full h-full" data-slide="${idx}" style="${idx === 0 ? 'display: flex;' : 'display: none;'}">
                     <img src="${encodedPath}" alt="${title} - Image ${idx + 1}" class="max-w-full max-h-[85vh] sm:max-h-[80vh] w-auto h-auto object-contain rounded-lg shadow-2xl" onerror="console.error('Failed to load image: ${encodedPath}'); this.style.border='2px solid red'; this.alt='Image failed to load: ${encodedPath}'">
                 </div>
             `;
         }).join('');
-
         return `
             <div id="${id}" class="gallery-modal hidden fixed inset-0 z-[9999] bg-white/70 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 opacity-0 transition-opacity duration-300">
                 <div class="gallery-content relative max-w-7xl w-full max-h-[95vh] sm:max-h-[90vh] transform scale-95 transition-transform duration-300">
@@ -66,14 +62,12 @@ export class GalleryModal {
             </div>
         `;
     }
-
     open(galleryId) {
         const modal = document.getElementById(galleryId);
-        if (!modal) return;
-
+        if (!modal)
+            return;
         this.galleryId = galleryId;
         this.currentSlide = 0;
-
         // Show modal with animation
         modal.classList.remove('hidden');
         setTimeout(() => {
@@ -85,10 +79,8 @@ export class GalleryModal {
                 content.classList.add('scale-100');
             }
         }, 10);
-
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
-
         // Close button - support both click and touch for mobile
         const closeBtn = modal.querySelector('.gallery-close');
         if (closeBtn) {
@@ -100,7 +92,6 @@ export class GalleryModal {
             closeBtn.onclick = closeHandler;
             closeBtn.addEventListener('touchend', closeHandler);
         }
-
         // Close on backdrop click/touch - support mobile
         const backdropHandler = (e) => {
             if (e.target === modal) {
@@ -111,15 +102,13 @@ export class GalleryModal {
         };
         modal.onclick = backdropHandler;
         modal.addEventListener('touchend', backdropHandler);
-
         // Initialize navigation
         this.initNavigation();
     }
-
     close() {
         const modal = document.getElementById(this.galleryId);
-        if (!modal) return;
-
+        if (!modal)
+            return;
         // Animate out
         modal.classList.add('opacity-0');
         const content = modal.querySelector('.gallery-content');
@@ -127,61 +116,56 @@ export class GalleryModal {
             content.classList.remove('scale-100');
             content.classList.add('scale-95');
         }
-
         setTimeout(() => {
             modal.classList.add('hidden');
             document.body.style.overflow = '';
             this.cleanup();
         }, 300);
     }
-
     initNavigation() {
         const modal = document.getElementById(this.galleryId);
-        if (!modal) return;
-
+        if (!modal)
+            return;
         const slides = Array.from(modal.querySelectorAll('.gallery-slide'));
         const dots = Array.from(modal.querySelectorAll('.gallery-dot'));
         const prevBtn = modal.querySelector('.gallery-prev');
         const nextBtn = modal.querySelector('.gallery-next');
         const counter = modal.querySelector('.gallery-counter');
-
         this.currentSlide = 0;
-
         const showSlide = (index) => {
             // Wrap around
-            if (index < 0) index = slides.length - 1;
-            if (index >= slides.length) index = 0;
-
+            if (index < 0)
+                index = slides.length - 1;
+            if (index >= slides.length)
+                index = 0;
             this.currentSlide = index;
-
             // Update slides
             slides.forEach((slide, idx) => {
                 if (idx === this.currentSlide) {
                     slide.classList.add('active');
                     slide.style.display = 'block';
-                } else {
+                }
+                else {
                     slide.classList.remove('active');
                     slide.style.display = 'none';
                 }
             });
-
             // Update dots
             dots.forEach((dot, idx) => {
                 if (idx === this.currentSlide) {
                     dot.classList.remove('bg-slate-300');
                     dot.classList.add('bg-slate-700');
-                } else {
+                }
+                else {
                     dot.classList.remove('bg-slate-700');
                     dot.classList.add('bg-slate-300');
                 }
             });
-
             // Update counter
             if (counter) {
                 counter.textContent = `${this.currentSlide + 1} / ${slides.length}`;
             }
         };
-
         // Navigation buttons - support both click and touch for mobile
         if (prevBtn) {
             const prevHandler = (e) => {
@@ -201,7 +185,6 @@ export class GalleryModal {
             nextBtn.onclick = nextHandler;
             nextBtn.addEventListener('touchend', nextHandler);
         }
-
         // Dots - support both click and touch for mobile
         dots.forEach((dot, idx) => {
             const dotHandler = (e) => {
@@ -212,21 +195,21 @@ export class GalleryModal {
             dot.onclick = dotHandler;
             dot.addEventListener('touchend', dotHandler);
         });
-
         // Keyboard navigation
         this.keyHandler = (e) => {
-            if (modal.classList.contains('hidden')) return;
-            if (e.key === 'ArrowLeft') showSlide(this.currentSlide - 1);
-            if (e.key === 'ArrowRight') showSlide(this.currentSlide + 1);
-            if (e.key === 'Escape') this.close();
+            if (modal.classList.contains('hidden'))
+                return;
+            if (e.key === 'ArrowLeft')
+                showSlide(this.currentSlide - 1);
+            if (e.key === 'ArrowRight')
+                showSlide(this.currentSlide + 1);
+            if (e.key === 'Escape')
+                this.close();
         };
-
         window.addEventListener('keydown', this.keyHandler);
-
         // Initialize
         showSlide(0);
     }
-
     cleanup() {
         if (this.keyHandler) {
             window.removeEventListener('keydown', this.keyHandler);
@@ -234,4 +217,3 @@ export class GalleryModal {
         }
     }
 }
-
