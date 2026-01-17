@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   web:
     build:
@@ -7,12 +5,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:80"
-    volumes:
-      - ./index.html:/usr/share/nginx/html/index.html
-      - ./js:/usr/share/nginx/html/js
+    # Note: No volumes mounted - container uses built files from Dockerfile
+    # To see changes, rebuild: docker-compose up --build
     restart: unless-stopped
     container_name: bpannone-website
-    # Uncomment the line below if you get 403 errors on Mac:
-    # environment:
-    #   - NGINX_USER=root
-
+    # Run as root on Mac to avoid permission issues with volume mounts
+    environment:
+      - NGINX_USER=root

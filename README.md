@@ -1,62 +1,41 @@
 # bpannone.github.io
 Personal Website
 
-A static website built with HTML, CSS, and JavaScript, designed to be hosted on GitHub Pages.
+A modern static website built with TypeScript and Tailwind CSS, designed to be hosted on GitHub Pages.
+
+## Tech Stack
+
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Docker** - Optional local development environment (not used for deployment)
 
 ## Development Environment
-
-This project uses Docker for the development environment with nginx serving static files.
-
+**Note:** Docker is optional and only used for local development. Build locally and deploy manually to GitHub Pages.
 ### Prerequisites
-- Docker
-- Docker Compose
 
-### Getting Started
+- **Docker** and **Docker Compose**
 
-1. **Start the development server:**
-   ```bash
-   docker-compose up
-   ```
 
-2. **View the development website:**
-   Open your browser and navigate to `http://localhost:8080`
+### Docker Development
 
-3. **Stop the development server:**
-   ```bash
-   docker-compose down
-   ```
+**Start:**
+```bash
+docker-compose up
+```
+
+**Stop:**
+```bash
+docker-compose down
+```
+
+View at `http://localhost:8080`
 
 ### Development Workflow
 
-The website files are mounted as a volume, so changes to your HTML/CSS/JS files will be reflected immediately (you may need to refresh your browser).
-
-### Project Structure
-
-- `index.html` - Main HTML file (served by both Docker and GitHub Pages)
-- `js/` - JavaScript files
-  - `js/main.js` - Main JavaScript file
-
-**Note:** Files are stored in the root directory and work for both Docker development and GitHub Pages deployment.
+- Edit files in `src/`
+- Rebuild container to see changes: `docker-compose up --build`
 
 ### Deploying to GitHub Pages
 
-Simply commit and push your changes:
-```bash
-git add .
-git commit -m "Update website"
-git push
-```
+Merge `develop` branch into `main` - GitHub Pages automatically deploys from root.
 
-GitHub Pages will automatically deploy the files from the root directory.
-
-### Building for Production (Docker)
-
-To build the Docker image:
-```bash
-docker build -t bpannone-website .
-```
-
-To run the built image:
-```bash
-docker run -p 8080:80 bpannone-website
-```

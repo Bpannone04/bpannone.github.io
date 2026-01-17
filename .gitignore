@@ -1,9 +1,15 @@
-# Log files
-*.log
-*.pid
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
 
-# Docker
-.DS_Store
+# Build outputs
+dist/
+node_modules/
+*.log
+
+# Source maps (avoid committing generated map files)
+*.map
 
 # Environment files
 .env
