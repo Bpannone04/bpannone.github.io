@@ -51,13 +51,13 @@ class AboutPage {
 
     private renderNavigation(): string {
         const navItems: NavItem[] = [
-            { label: 'Home', href: 'index.html' },
-            { label: 'About', href: 'about.html' },
-            { label: 'Projects', href: 'index.html#projects' },
-            { label: 'Contact', href: 'index.html#contact' }
+            { label: 'Home', href: '/' },
+            { label: 'About', href: '/about' },
+            { label: 'Projects', href: '/#projects' },
+            { label: 'Contact', href: '/#contact' }
         ];
 
-        const activeHref = 'about.html';
+        const activeHref = '/about';
 
         const navLinks = navItems.map(item => {
             const isActive = item.href === activeHref;

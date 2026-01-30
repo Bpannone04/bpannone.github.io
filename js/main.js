@@ -42,12 +42,12 @@ class Website {
     }
     renderNavigation() {
         const navItems = [
-            { label: 'Home', href: 'index.html' },
-            { label: 'About', href: 'about.html' },
-            { label: 'Projects', href: 'index.html#projects' },
-            { label: 'Contact', href: 'index.html#contact' }
+            { label: 'Home', href: '/' },
+            { label: 'About', href: '/about' },
+            { label: 'Projects', href: '/#projects' },
+            { label: 'Contact', href: '/#contact' }
         ];
-        const activeHref = 'index.html';
+        const activeHref = '/';
         const navLinks = navItems.map(item => {
             const isActive = item.href === activeHref;
             const classes = isActive
@@ -139,7 +139,7 @@ class Website {
                             <p class="mt-3 text-gray-600 max-w-md mx-auto">
                                 Learn more about my background, education, and professional experience in software development.
                             </p>
-                            <a href="about.html" class="inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors mt-4">
+                            <a href="/about" class="inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors mt-4">
                                 Read About
                             </a>
                         </div>

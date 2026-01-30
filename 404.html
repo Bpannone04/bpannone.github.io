@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        // GitHub Pages routing - handle clean URLs without changing the URL bar
+        (function() {
+            const path = window.location.pathname;
+            const hash = window.location.hash;
+            
+            // Remove leading/trailing slashes and get the path segment
+            const cleanPath = path.replace(/^\/|\/$/g, '');
+            
+            // Determine which HTML file to load
+            let htmlFile = '/index.html';
+            if (cleanPath === 'about') {
+                htmlFile = '/about.html';
+            } else if (cleanPath === '' || cleanPath === 'index.html') {
+                htmlFile = '/index.html';
+            }
+            
+            // Fetch and load the content
+            fetch(htmlFile)
+                .then(response => response.text())
+                .then(html => {
+                    // Parse the HTML
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    // Replace the current document
+                    document.open();
+                    document.write(html);
+                    document.close();
+                    
+                    // If there's a hash, scroll to it after a short delay
+                    if (hash) {
+                        setTimeout(() => {
+                            const element = document.querySelector(hash);
+                            if (element) {
+                                element.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }, 100);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading page:', error);
+                    // Fallback: redirect to home
+                    window.location.replace('/index.html');
+                });
+        })();
+    </script>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: system-ui;">
+        <p>Loading...</p>
+    </div>
+</body>
+</html>
