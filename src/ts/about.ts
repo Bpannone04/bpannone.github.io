@@ -1,73 +1,76 @@
 // About page TypeScript file for https://bpannone.com
 
 interface NavItem {
-    label: string;
-    href: string;
+  label: string;
+  href: string;
 }
 
 class AboutPage {
-    private app: HTMLElement;
-    
-    constructor() {
-        const appElement = document.getElementById('app');
-        if (!appElement) {
-            throw new Error('App element not found');
-        }
-        this.app = appElement;
-    }
+  private app: HTMLElement;
 
-    init(): void {
-        this.checkDevelopmentEnvironment();
-        this.render();
-        this.initEventListeners();
+  constructor() {
+    const appElement = document.getElementById("app");
+    if (!appElement) {
+      throw new Error("App element not found");
     }
+    this.app = appElement;
+  }
 
-    private checkDevelopmentEnvironment(): void {
-        const hostname: string = window.location.hostname;
-        const port: string = window.location.port;
-        const isDevelopment: boolean = (hostname === 'localhost' || hostname === '127.0.0.1') && 
-                                       port === '8080';
-        
-        if (isDevelopment) {
-            this.showDevelopmentBanner();
-        }
+  init(): void {
+    this.checkDevelopmentEnvironment();
+    this.render();
+    this.initEventListeners();
+  }
+
+  private checkDevelopmentEnvironment(): void {
+    const hostname: string = window.location.hostname;
+    const port: string = window.location.port;
+    const isDevelopment: boolean =
+      (hostname === "localhost" || hostname === "127.0.0.1") && port === "8080";
+
+    if (isDevelopment) {
+      this.showDevelopmentBanner();
     }
+  }
 
-    private showDevelopmentBanner(): void {
-        const banner = document.createElement('div');
-        banner.className = 'fixed bottom-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md';
-        banner.textContent = 'DEVELOPMENT ENVIRONMENT NOT PRODUCTION';
-        document.body.appendChild(banner);
-    }
+  private showDevelopmentBanner(): void {
+    const banner = document.createElement("div");
+    banner.className =
+      "fixed bottom-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md";
+    banner.textContent = "DEVELOPMENT ENVIRONMENT NOT PRODUCTION";
+    document.body.appendChild(banner);
+  }
 
-    private render(): void {
-        this.app.innerHTML = `
+  private render(): void {
+    this.app.innerHTML = `
             ${this.renderNavigation()}
-            ${this.renderPageHeader('About')}
+            ${this.renderPageHeader("About")}
             ${this.renderAbout()}
             ${this.renderFooter()}
         `;
-    }
+  }
 
-    private renderNavigation(): string {
-        const navItems: NavItem[] = [
-            { label: 'Home', href: '/' },
-            { label: 'About', href: '/about' },
-            { label: 'Projects', href: '/#projects' },
-            { label: 'Contact', href: '/#contact' }
-        ];
+  private renderNavigation(): string {
+    const navItems: NavItem[] = [
+      { label: "Home", href: "/" },
+      { label: "About", href: "/about" },
+      { label: "Projects", href: "/#projects" },
+      { label: "Contact", href: "/#contact" },
+    ];
 
-        const activeHref = '/about';
+    const activeHref = "/about";
 
-        const navLinks = navItems.map(item => {
-            const isActive = item.href === activeHref;
-            const classes = isActive
-                ? 'nav-link text-slate-900 font-semibold'
-                : 'nav-link text-gray-700 hover:text-slate-800 transition-colors';
-            return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
-        }).join('');
+    const navLinks = navItems
+      .map((item) => {
+        const isActive = item.href === activeHref;
+        const classes = isActive
+          ? "nav-link text-slate-900 font-semibold"
+          : "nav-link text-gray-700 hover:text-slate-800 transition-colors";
+        return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
+      })
+      .join("");
 
-        return `
+    return `
             <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center h-16">
@@ -84,21 +87,23 @@ class AboutPage {
                 </div>
                 <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
                     <div class="px-4 py-4 space-y-4">
-                        ${navItems.map(item => {
+                        ${navItems
+                          .map((item) => {
                             const isActive = item.href === activeHref;
                             const classes = isActive
-                                ? 'block text-slate-900 font-semibold'
-                                : 'block text-gray-700 hover:text-slate-800 transition-colors';
+                              ? "block text-slate-900 font-semibold"
+                              : "block text-gray-700 hover:text-slate-800 transition-colors";
                             return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
-                        }).join('')}
+                          })
+                          .join("")}
                     </div>
                 </div>
             </nav>
         `;
-    }
+  }
 
-    private renderPageHeader(title: string): string {
-        return `
+  private renderPageHeader(title: string): string {
+    return `
             <header class="pt-28 pb-10 px-4 sm:px-6 lg:px-8 bg-white">
                 <div class="max-w-6xl mx-auto">
                     <h1 class="text-4xl md:text-5xl font-bold text-slate-900">${title}</h1>
@@ -106,10 +111,10 @@ class AboutPage {
                 </div>
             </header>
         `;
-    }
+  }
 
-    private renderAbout(): string {
-        return `
+  private renderAbout(): string {
+    return `
             <section id="about" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
                 <div class="max-w-6xl mx-auto">
                     <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
@@ -169,77 +174,76 @@ class AboutPage {
                 </div>
             </section>
         `;
-    }
+  }
 
-    private renderFooter(): string {
-        const currentYear = new Date().getFullYear();
-        return `
+  private renderFooter(): string {
+    const currentYear = new Date().getFullYear();
+    return `
             <footer class="bg-slate-900 text-slate-400 py-8 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-6xl mx-auto text-center">
                     <p>&copy; ${currentYear} Bryce Pannone. All rights reserved.</p>
                 </div>
             </footer>
         `;
+  }
+
+  private initEventListeners(): void {
+    // Smooth scrolling
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach((link) => {
+      link.addEventListener("click", (e: Event) => {
+        const target = e.target as HTMLAnchorElement;
+        const href = target.getAttribute("href");
+
+        if (href && href !== "#") {
+          e.preventDefault();
+          const targetId = href.substring(1);
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 80;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: "smooth",
+            });
+
+            const mobileMenu = document.getElementById("mobile-menu");
+            if (mobileMenu && !mobileMenu.classList.contains("hidden")) {
+              mobileMenu.classList.add("hidden");
+            }
+          }
+        }
+      });
+    });
+
+    // Mobile menu
+    const menuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
     }
 
-    private initEventListeners(): void {
-        // Smooth scrolling
-        const links = document.querySelectorAll('a[href^="#"]');
-        links.forEach(link => {
-            link.addEventListener('click', (e: Event) => {
-                const target = e.target as HTMLAnchorElement;
-                const href = target.getAttribute('href');
-                
-                if (href && href !== '#') {
-                    e.preventDefault();
-                    const targetId = href.substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    
-                    if (targetElement) {
-                        const offsetTop = targetElement.offsetTop - 80;
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
-                        
-                        const mobileMenu = document.getElementById('mobile-menu');
-                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                        }
-                    }
-                }
-            });
-        });
-
-        // Mobile menu
-        const menuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (menuButton && mobileMenu) {
-            menuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+    // Scroll effect on nav
+    const nav = document.querySelector("nav");
+    if (nav) {
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          nav.classList.add("shadow-lg");
+          nav.classList.remove("shadow-sm");
+        } else {
+          nav.classList.remove("shadow-lg");
+          nav.classList.add("shadow-sm");
         }
-
-        // Scroll effect on nav
-        const nav = document.querySelector('nav');
-        if (nav) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    nav.classList.add('shadow-lg');
-                    nav.classList.remove('shadow-sm');
-                } else {
-                    nav.classList.remove('shadow-lg');
-                    nav.classList.add('shadow-sm');
-                }
-            });
-        }
+      });
     }
+  }
 }
 
 // Initialize the about page when DOM is ready
-document.addEventListener('DOMContentLoaded', (): void => {
-    const aboutPage = new AboutPage();
-    aboutPage.init();
+document.addEventListener("DOMContentLoaded", (): void => {
+  const aboutPage = new AboutPage();
+  aboutPage.init();
 });
-
