@@ -127,7 +127,11 @@ class AboutPage {
                             <div class="prose max-w-none">
                                 <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4">About Me</h2>
                                 <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-                                    Computer Science student at Frostburg State University, graduating in the spring with strong experience in full-stack development. Proficient in Java, Python, C, C++, and JavaScript, with a great interest in data structures, networking, and machine learning. Experienced in turning system requirements into user-focused solutions through an internship at Willetts Technology. Seeking to apply my programming and problem-solving skills across various domains of computing and technology.
+                                    I have been taking computer science courses over the past four years, and over these four years, my understanding of the material and different principles across computing has changed. I have moved beyond just thinking about individual programming languages to include now how software is designed, developed, and maintained over time. This new understanding of software development has come from my coursework and projects, which introduced me to new languages, principles, and tools. I also learned different ways to approach problems through debugging and adapting to changing project requirements.
+                                </p>
+                                <br />
+                                <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
+                                    Through my recent internship at Willetts Technology, I have further enhanced my understanding of the software development process by collaborating with other developers on different methodologies. As I prepare for graduation, I’m starting to think about my long-term professional goals. I would like to continue improving my skills as a software developer while also staying up to date on new practices. I am also eager to start working on a team with other developers in a professional environment.
                                 </p>
                             </div>
 
