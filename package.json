@@ -7,7 +7,8 @@
     "build": "npm run build:css && npm run build:ts",
     "build:css": "tailwindcss -i ./src/css/input.css -o ./css/styles.css --minify",
     "build:ts": "tsc",
-    "dev": "npm run prebuild && npm run build && npm run watch",
+    "dev": "npm run prebuild && npm run build:css && concurrently \"vite\" \"npm run watch:css\"",
+    "dev:watch": "npm run prebuild && npm run build && npm run watch",
     "watch": "concurrently \"npm run watch:css\" \"npm run watch:ts\"",
     "watch:css": "tailwindcss -i ./src/css/input.css -o ./css/styles.css --watch",
     "watch:ts": "tsc --watch"
@@ -18,7 +19,9 @@
     "concurrently": "^8.2.2",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "esbuild": "^0.24.0",
+    "vite": "^6.0.0"
   }
 }
 

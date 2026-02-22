@@ -1,4 +1,4 @@
-// About page TypeScript file for https://bpannone.com
+// About page
 
 interface NavItem {
   label: string;
@@ -125,7 +125,7 @@ class AboutPage {
                         </div>
                         <div>
                             <div class="prose max-w-none">
-                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Professional Summary</h2>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4">About Me</h2>
                                 <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
                                     Computer Science student at Frostburg State University, graduating in the spring with strong experience in full-stack development. Proficient in Java, Python, C, C++, and JavaScript, with a great interest in data structures, networking, and machine learning. Experienced in turning system requirements into user-focused solutions through an internship at Willetts Technology. Seeking to apply my programming and problem-solving skills across various domains of computing and technology.
                                 </p>

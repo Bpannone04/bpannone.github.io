@@ -1,4 +1,4 @@
-// Gallery Modal class for displaying project image galleries
+// Gallery Modal
 
 export class GalleryModal {
   private currentSlide: number = 0;
