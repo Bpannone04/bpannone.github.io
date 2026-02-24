@@ -127,11 +127,15 @@ class AboutPage {
                             <div class="prose max-w-none">
                                 <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4">About Me</h2>
                                 <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-                                    I have been taking computer science courses over the past four years, and over these four years, my understanding of the material and different principles across computing has changed. I have moved beyond just thinking about individual programming languages to include now how software is designed, developed, and maintained over time. This new understanding of software development has come from my coursework and projects, which introduced me to new languages, principles, and tools. I also learned different ways to approach problems through debugging and adapting to changing project requirements.
+                                    Over the past four years of studying computer science, my beliefs about software development have changed. I originally believed software development was mostly about learning a programming language. But after four years of classes, projects, and an internship, I've learned that there is much more to learn about software development, from designing, building, and maintaining software to debugging code or using tools such as Docker or Git. My original beliefs about computer science have changed after learning more about the subject and getting more hands-on experience.
                                 </p>
                                 <br />
                                 <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-                                    Through my recent internship at Willetts Technology, I have further enhanced my understanding of the software development process by collaborating with other developers on different methodologies. As I prepare for graduation, I’m starting to think about my long-term professional goals. I would like to continue improving my skills as a software developer while also staying up to date on new practices. I am also eager to start working on a team with other developers in a professional environment.
+                                    I have learned that software development involves design, development, problem-solving, and collaboration. While most of the courses I've taken have taught me about debugging code, architecture, and using version control like Git, it's the hands-on experience where I have gained the most knowledge. Through various projects and my internship, I have learned to collaborate with other developers, understand different business workflows, and adapt to changing project requirements.
+                                </p>
+                                  <br />
+                                <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
+                                    I'll be graduating in the Spring, which brings to mind my long-term goals. I would like to continue to learn while working in the industry. I want to continue using the latest tools and frameworks to accomplish this. I will research and stay up to date on them. I also want to be able to take feedback from others and use it to improve my development skills. \
                                 </p>
                             </div>
 
