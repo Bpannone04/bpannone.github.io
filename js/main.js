@@ -314,7 +314,7 @@ class Website {
             },
             {
                 label: 'Download Resume',
-                href: 'files/Bryce Pannone- Resume 2025.pdf',
+                href: 'files/Bryce Pannone- Resume Web Safe 2026.pdf',
                 icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>`
@@ -407,39 +407,33 @@ class Website {
     initGalleryListeners() {
         const gallery = new GalleryModal();
         // Open gallery buttons - support both click and touch events for mobile
-        // Use touchstart to handle mobile, click for desktop (avoid double-firing)
         document.querySelectorAll('[data-gallery-id]').forEach(button => {
-            let touchStarted = false;
-            
+            let touchHandled = false;
             const openGallery = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 const target = e.currentTarget;
                 const galleryId = target.getAttribute('data-gallery-id');
-                if (galleryId) {
+                if (galleryId && !touchHandled) {
+                    touchHandled = true;
                     gallery.open(galleryId);
+                    // Reset flag after a short delay
+                    setTimeout(() => { touchHandled = false; }, 300);
                 }
             };
-            
-            // Handle touch events for mobile
+            // Handle touch events for mobile - use touchstart to prevent click
             button.addEventListener('touchstart', (e) => {
-                touchStarted = true;
-                // Small delay to allow click to be prevented if touch continues
-                setTimeout(() => {
-                    if (touchStarted) {
-                        openGallery(e);
-                        touchStarted = false;
-                    }
-                }, 100);
-            }, { passive: false });
-            
-            // Handle click events for desktop (and as fallback)
-            button.addEventListener('click', (e) => {
-                if (!touchStarted) {
-                    openGallery(e);
+                e.preventDefault(); // Prevent click from firing
+                const target = e.currentTarget;
+                const galleryId = target.getAttribute('data-gallery-id');
+                if (galleryId && !touchHandled) {
+                    touchHandled = true;
+                    gallery.open(galleryId);
+                    setTimeout(() => { touchHandled = false; }, 300);
                 }
-                touchStarted = false;
-            });
+            }, { passive: false });
+            // Handle click events for desktop
+            button.addEventListener('click', openGallery);
         });
     }
 }
