@@ -1,56 +1,42 @@
 "use strict";
-// About page TypeScript file for https://bpannone.com
+// About page
 class AboutPage {
     constructor() {
-        const appElement = document.getElementById('app');
+        const appElement = document.getElementById("app");
         if (!appElement) {
-            throw new Error('App element not found');
+            throw new Error("App element not found");
         }
         this.app = appElement;
     }
     init() {
-        this.checkDevelopmentEnvironment();
         this.render();
         this.initEventListeners();
-    }
-    checkDevelopmentEnvironment() {
-        const hostname = window.location.hostname;
-        const port = window.location.port;
-        const isDevelopment = (hostname === 'localhost' || hostname === '127.0.0.1') &&
-            port === '8080';
-        if (isDevelopment) {
-            this.showDevelopmentBanner();
-        }
-    }
-    showDevelopmentBanner() {
-        const banner = document.createElement('div');
-        banner.className = 'fixed bottom-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md';
-        banner.textContent = 'DEVELOPMENT ENVIRONMENT NOT PRODUCTION';
-        document.body.appendChild(banner);
     }
     render() {
         this.app.innerHTML = `
             ${this.renderNavigation()}
-            ${this.renderPageHeader('About')}
+            ${this.renderPageHeader("About")}
             ${this.renderAbout()}
             ${this.renderFooter()}
         `;
     }
     renderNavigation() {
         const navItems = [
-            { label: 'Home', href: '/' },
-            { label: 'About', href: '/about' },
-            { label: 'Projects', href: '/#projects' },
-            { label: 'Contact', href: '/#contact' }
+            { label: "Home", href: "/" },
+            { label: "About", href: "/about" },
+            { label: "Projects", href: "/projects" },
+            { label: "Contact", href: "/#contact" },
         ];
-        const activeHref = '/about';
-        const navLinks = navItems.map(item => {
+        const activeHref = "/about";
+        const navLinks = navItems
+            .map((item) => {
             const isActive = item.href === activeHref;
             const classes = isActive
-                ? 'nav-link text-slate-900 font-semibold'
-                : 'nav-link text-gray-700 hover:text-slate-800 transition-colors';
+                ? "nav-link text-slate-900 font-semibold"
+                : "nav-link text-gray-700 hover:text-slate-800 transition-colors";
             return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
-        }).join('');
+        })
+            .join("");
         return `
             <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,13 +54,15 @@ class AboutPage {
                 </div>
                 <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
                     <div class="px-4 py-4 space-y-4">
-                        ${navItems.map(item => {
+                        ${navItems
+            .map((item) => {
             const isActive = item.href === activeHref;
             const classes = isActive
-                ? 'block text-slate-900 font-semibold'
-                : 'block text-gray-700 hover:text-slate-800 transition-colors';
+                ? "block text-slate-900 font-semibold"
+                : "block text-gray-700 hover:text-slate-800 transition-colors";
             return `<a href="${item.href}" class="${classes}">${item.label}</a>`;
-        }).join('')}
+        })
+            .join("")}
                     </div>
                 </div>
             </nav>
@@ -102,9 +90,17 @@ class AboutPage {
                         </div>
                         <div>
                             <div class="prose max-w-none">
-                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Professional Summary</h2>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4">About Me</h2>
                                 <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-                                    Computer Science student at Frostburg State University, graduating in the spring with strong experience in full-stack development. Proficient in Java, Python, C, C++, and JavaScript, with a great interest in data structures, networking, and machine learning. Experienced in turning system requirements into user-focused solutions through an internship at Willetts Technology. Seeking to apply my programming and problem-solving skills across various domains of computing and technology.
+                                    Over the past four years of studying computer science, my beliefs about software development have changed. I originally believed software development was mostly about learning a programming language. But after four years of classes, projects, and an internship, I've learned that there is much more to learn about software development, from designing, building, and maintaining software to debugging code or using tools such as Docker or Git. My original beliefs about computer science have changed after learning more about the subject and getting more hands-on experience.
+                                </p>
+                                <br />
+                                <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
+                                    I have learned that software development involves design, development, problem-solving, and collaboration. While most of the courses I've taken have taught me about debugging code, architecture, and using version control like Git, it's the hands-on experience where I have gained the most knowledge. Through various projects and my internship, I have learned to collaborate with other developers, understand different business workflows, and adapt to changing project requirements.
+                                </p>
+                                  <br />
+                                <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
+                                    I'll be graduating in the Spring, which brings to mind my long-term goals. I would like to continue to learn while working in the industry. I want to continue using the latest tools and frameworks to accomplish this. I will research and stay up to date on them. I also want to be able to take feedback from others and use it to improve my development skills. \
                                 </p>
                             </div>
 
@@ -155,7 +151,7 @@ class AboutPage {
     renderFooter() {
         const currentYear = new Date().getFullYear();
         return `
-            <footer class="bg-slate-900 text-slate-400 py-8 px-4 sm:px-6 lg:px-8">
+            <footer class="bg-slate-900 text-slate-400 text-sm py-3 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-6xl mx-auto text-center">
                     <p>&copy; ${currentYear} Bryce Pannone. All rights reserved.</p>
                 </div>
@@ -165,11 +161,11 @@ class AboutPage {
     initEventListeners() {
         // Smooth scrolling
         const links = document.querySelectorAll('a[href^="#"]');
-        links.forEach(link => {
-            link.addEventListener('click', (e) => {
+        links.forEach((link) => {
+            link.addEventListener("click", (e) => {
                 const target = e.target;
-                const href = target.getAttribute('href');
-                if (href && href !== '#') {
+                const href = target.getAttribute("href");
+                if (href && href !== "#") {
                     e.preventDefault();
                     const targetId = href.substring(1);
                     const targetElement = document.getElementById(targetId);
@@ -177,42 +173,42 @@ class AboutPage {
                         const offsetTop = targetElement.offsetTop - 80;
                         window.scrollTo({
                             top: offsetTop,
-                            behavior: 'smooth'
+                            behavior: "smooth",
                         });
-                        const mobileMenu = document.getElementById('mobile-menu');
-                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
+                        const mobileMenu = document.getElementById("mobile-menu");
+                        if (mobileMenu && !mobileMenu.classList.contains("hidden")) {
+                            mobileMenu.classList.add("hidden");
                         }
                     }
                 }
             });
         });
         // Mobile menu
-        const menuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+        const menuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
         if (menuButton && mobileMenu) {
-            menuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+            menuButton.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
             });
         }
         // Scroll effect on nav
-        const nav = document.querySelector('nav');
+        const nav = document.querySelector("nav");
         if (nav) {
-            window.addEventListener('scroll', () => {
+            window.addEventListener("scroll", () => {
                 if (window.scrollY > 50) {
-                    nav.classList.add('shadow-lg');
-                    nav.classList.remove('shadow-sm');
+                    nav.classList.add("shadow-lg");
+                    nav.classList.remove("shadow-sm");
                 }
                 else {
-                    nav.classList.remove('shadow-lg');
-                    nav.classList.add('shadow-sm');
+                    nav.classList.remove("shadow-lg");
+                    nav.classList.add("shadow-sm");
                 }
             });
         }
     }
 }
 // Initialize the about page when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const aboutPage = new AboutPage();
     aboutPage.init();
 });
