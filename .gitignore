@@ -1,6 +1,5 @@
 # Dependencies
 node_modules/
-package-lock.json
 yarn.lock
 
 # Build outputs
@@ -15,4 +14,4 @@ node_modules/
 .env
 .env.local
 
-docker-compose.override.yml
+.DS_Store
