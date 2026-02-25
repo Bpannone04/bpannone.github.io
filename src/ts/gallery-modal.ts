@@ -11,8 +11,8 @@ export class GalleryModal {
         // Replace spaces with %20 for proper URL encoding
         const encodedPath = img.replace(/\s/g, "%20");
         return `
-                <div class="gallery-slide ${idx === 0 ? "active" : ""} flex items-center justify-center w-full h-full" data-slide="${idx}" style="${idx === 0 ? "display: flex;" : "display: none;"}">
-                    <img src="${encodedPath}" alt="${title} - Image ${idx + 1}" class="max-w-full max-h-[85vh] sm:max-h-[80vh] w-auto h-auto object-contain rounded-lg shadow-2xl" onerror="console.error('Failed to load image: ${encodedPath}'); this.style.border='2px solid red'; this.alt='Image failed to load: ${encodedPath}'">
+                <div class="gallery-slide ${idx === 0 ? "active" : ""} flex items-center justify-center w-full h-full min-h-0" data-slide="${idx}" style="${idx === 0 ? "display: flex;" : "display: none;"}">
+                    <img src="${encodedPath}" alt="${title} - Image ${idx + 1}" class="gallery-image max-w-full max-h-[65vh] w-auto h-auto object-contain rounded-lg shadow-2xl" onerror="console.error('Failed to load image: ${encodedPath}'); this.style.border='2px solid red'; this.alt='Image failed to load: ${encodedPath}'">
                 </div>
             `;
       })
@@ -28,35 +28,35 @@ export class GalleryModal {
                         </svg>
                     </button>
                     
-                    <!-- Gallery Container -->
-                    <div class="relative bg-white rounded-xl overflow-hidden shadow-2xl border border-slate-200">
+                    <!-- Gallery Container: flex column so header + image + dots always fit in viewport -->
+                    <div class="relative bg-white rounded-xl overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[85vh] sm:max-h-[88vh]">
                         <!-- Header -->
-                        <div class="bg-slate-50 border-b border-slate-200 text-slate-900 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2">
+                        <div class="bg-slate-50 border-b border-slate-200 text-slate-900 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2 shrink-0">
                             <h3 class="text-lg sm:text-xl font-bold truncate">${title} - Gallery</h3>
                             <span class="gallery-counter text-xs sm:text-sm text-slate-600 shrink-0">1 / ${images.length}</span>
                         </div>
                         
-                        <!-- Image Container -->
-                        <div class="gallery-viewport relative bg-slate-50 min-h-[300px] sm:min-h-[400px] md:min-h-[500px] flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
-                            <div class="gallery-slides relative w-full h-full flex items-center justify-center">
+                        <!-- Image area: flex-1 min-h-0 so image scales to fit; no scroll, dots always visible -->
+                        <div class="gallery-viewport relative bg-slate-50 flex-1 min-h-0 flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+                            <div class="gallery-slides relative w-full h-full min-h-0 flex items-center justify-center">
                                 ${imageItems}
                             </div>
                         </div>
                         
                         <!-- Navigation Buttons -->
-                        <button class="gallery-prev absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-slate-50 text-slate-700 p-2 sm:p-3 rounded-full shadow-lg border border-slate-200 transition-all hover:scale-110 z-10">
+                        <button class="gallery-prev absolute left-2 sm:left-4 top-[50%] -translate-y-1/2 bg-white hover:bg-slate-50 text-slate-700 p-2 sm:p-3 rounded-full shadow-lg border border-slate-200 transition-all hover:scale-110 z-10 pointer-events-auto">
                             <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
                         </button>
-                        <button class="gallery-next absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-slate-50 text-slate-700 p-2 sm:p-3 rounded-full shadow-lg border border-slate-200 transition-all hover:scale-110 z-10">
+                        <button class="gallery-next absolute right-2 sm:right-4 top-[50%] -translate-y-1/2 bg-white hover:bg-slate-50 text-slate-700 p-2 sm:p-3 rounded-full shadow-lg border border-slate-200 transition-all hover:scale-110 z-10 pointer-events-auto">
                             <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
                         </button>
                         
-                        <!-- Dots Navigation -->
-                        <div class="gallery-dots bg-slate-50 border-t border-slate-200 px-4 sm:px-6 py-3 sm:py-4 flex gap-2 justify-center flex-wrap">
+                        <!-- Dots Navigation: always visible at bottom -->
+                        <div class="gallery-dots bg-slate-50 border-t border-slate-200 px-4 sm:px-6 py-3 sm:py-4 flex gap-2 justify-center flex-wrap shrink-0">
                             ${images
                               .map(
                                 (_, idx) => `
@@ -166,7 +166,7 @@ export class GalleryModal {
       slides.forEach((slide, idx) => {
         if (idx === this.currentSlide) {
           slide.classList.add("active");
-          slide.style.display = "block";
+          slide.style.display = "flex";
         } else {
           slide.classList.remove("active");
           slide.style.display = "none";

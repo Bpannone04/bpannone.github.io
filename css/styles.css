@@ -554,6 +554,22 @@ video {
   display: none;
 }
 
+html,
+  body {
+  margin: 0px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1));
+  padding: 0px;
+}
+
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+.visible {
+  visibility: visible;
+}
+
 .static {
   position: static;
 }
@@ -578,10 +594,6 @@ video {
   top: -2.5rem;
 }
 
-.bottom-0 {
-  bottom: 0px;
-}
-
 .left-0 {
   left: 0px;
 }
@@ -598,11 +610,23 @@ video {
   right: 0.5rem;
 }
 
+.right-4 {
+  right: 1rem;
+}
+
 .top-0 {
   top: 0px;
 }
 
 .top-1\/2 {
+  top: 50%;
+}
+
+.top-4 {
+  top: 1rem;
+}
+
+.top-\[50\%\] {
   top: 50%;
 }
 
@@ -614,8 +638,8 @@ video {
   z-index: 50;
 }
 
-.z-\[10000\] {
-  z-index: 10000;
+.z-\[9998\] {
+  z-index: 9998;
 }
 
 .z-\[9999\] {
@@ -637,6 +661,10 @@ video {
 
 .mb-2 {
   margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 0.75rem;
 }
 
 .mb-4 {
@@ -743,6 +771,10 @@ video {
   height: 100%;
 }
 
+.h-\[400px\] {
+  height: 400px;
+}
+
 .max-h-\[85vh\] {
   max-height: 85vh;
 }
@@ -751,8 +783,40 @@ video {
   max-height: 95vh;
 }
 
+.max-h-\[70vh\] {
+  max-height: 70vh;
+}
+
+.max-h-full {
+  max-height: 100%;
+}
+
+.max-h-\[65vh\] {
+  max-height: 65vh;
+}
+
+.min-h-0 {
+  min-height: 0px;
+}
+
 .min-h-\[300px\] {
   min-height: 300px;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.min-h-\[50vh\] {
+  min-height: 50vh;
+}
+
+.min-h-\[400px\] {
+  min-height: 400px;
+}
+
+.min-h-full {
+  min-height: 100%;
 }
 
 .w-10 {
@@ -787,8 +851,16 @@ video {
   width: 100%;
 }
 
+.min-w-0 {
+  min-width: 0px;
+}
+
 .max-w-2xl {
   max-width: 42rem;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
 }
 
 .max-w-4xl {
@@ -823,6 +895,10 @@ video {
   max-width: 24rem;
 }
 
+.flex-1 {
+  flex: 1 1 0%;
+}
+
 .shrink-0 {
   flex-shrink: 0;
 }
@@ -846,6 +922,10 @@ video {
 
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .list-inside {
@@ -928,8 +1008,16 @@ video {
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
 }
 
 .truncate {
@@ -940,6 +1028,10 @@ video {
 
 .whitespace-nowrap {
   white-space: nowrap;
+}
+
+.whitespace-pre-line {
+  white-space: pre-line;
 }
 
 .rounded-2xl {
@@ -993,9 +1085,8 @@ video {
   border-color: rgb(255 255 255 / 0.1);
 }
 
-.bg-orange-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));
+.bg-black\/50 {
+  background-color: rgb(0 0 0 / 0.5);
 }
 
 .bg-slate-100 {
@@ -1098,6 +1189,10 @@ video {
      object-fit: cover;
 }
 
+.p-1 {
+  padding: 0.25rem;
+}
+
 .p-2 {
   padding: 0.5rem;
 }
@@ -1164,17 +1259,16 @@ video {
   padding-bottom: 1rem;
 }
 
-.py-8 {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-
 .pb-10 {
   padding-bottom: 2.5rem;
 }
 
 .pb-20 {
   padding-bottom: 5rem;
+}
+
+.pt-12 {
+  padding-top: 3rem;
 }
 
 .pt-28 {
@@ -1277,6 +1371,11 @@ video {
 .text-slate-400 {
   --tw-text-opacity: 1;
   color: rgb(148 163 184 / var(--tw-text-opacity, 1));
+}
+
+.text-slate-500 {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139 / var(--tw-text-opacity, 1));
 }
 
 .text-slate-600 {
@@ -1502,6 +1601,10 @@ video {
     height: 1.5rem;
   }
 
+  .sm\:h-\[500px\] {
+    height: 500px;
+  }
+
   .sm\:max-h-\[80vh\] {
     max-height: 80vh;
   }
@@ -1510,8 +1613,20 @@ video {
     max-height: 90vh;
   }
 
+  .sm\:max-h-\[75vh\] {
+    max-height: 75vh;
+  }
+
+  .sm\:max-h-\[88vh\] {
+    max-height: 88vh;
+  }
+
   .sm\:min-h-\[400px\] {
     min-height: 400px;
+  }
+
+  .sm\:min-h-\[500px\] {
+    min-height: 500px;
   }
 
   .sm\:w-6 {
@@ -1662,6 +1777,10 @@ video {
 
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-\[repeat\(3\2c minmax\(0\2c 1fr\)\)\] {
+    grid-template-columns: repeat(3,minmax(0,1fr));
   }
 
   .lg\:px-8 {

@@ -17,28 +17,8 @@ class AboutPage {
   }
 
   init(): void {
-    this.checkDevelopmentEnvironment();
     this.render();
     this.initEventListeners();
-  }
-
-  private checkDevelopmentEnvironment(): void {
-    const hostname: string = window.location.hostname;
-    const port: string = window.location.port;
-    const isDevelopment: boolean =
-      (hostname === "localhost" || hostname === "127.0.0.1") && port === "8080";
-
-    if (isDevelopment) {
-      this.showDevelopmentBanner();
-    }
-  }
-
-  private showDevelopmentBanner(): void {
-    const banner = document.createElement("div");
-    banner.className =
-      "fixed bottom-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md";
-    banner.textContent = "DEVELOPMENT ENVIRONMENT NOT PRODUCTION";
-    document.body.appendChild(banner);
   }
 
   private render(): void {
@@ -54,7 +34,7 @@ class AboutPage {
     const navItems: NavItem[] = [
       { label: "Home", href: "/" },
       { label: "About", href: "/about" },
-      { label: "Projects", href: "/#projects" },
+      { label: "Projects", href: "/projects" },
       { label: "Contact", href: "/#contact" },
     ];
 
@@ -187,7 +167,7 @@ class AboutPage {
   private renderFooter(): string {
     const currentYear = new Date().getFullYear();
     return `
-            <footer class="bg-slate-900 text-slate-400 py-8 px-4 sm:px-6 lg:px-8">
+            <footer class="bg-slate-900 text-slate-400 text-sm py-3 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-6xl mx-auto text-center">
                     <p>&copy; ${currentYear} Bryce Pannone. All rights reserved.</p>
                 </div>

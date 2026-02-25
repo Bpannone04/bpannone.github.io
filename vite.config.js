@@ -7,7 +7,6 @@ import * as esbuild from "esbuild";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = __dirname;
 
-/** Resolve .js imports to .ts when the .ts file exists (for src/ts). */
 const resolveTsPlugin = {
   name: "resolve-ts",
   setup(build) {
@@ -22,22 +21,29 @@ const resolveTsPlugin = {
   },
 };
 
-/**
- * Vite plugin: when the browser requests /js/main.js or /js/about.js,
- * compile the corresponding TypeScript from src/ts/ and serve it.
- * This lets local dev run off .ts sources without pre-building.
- */
-function tsFromSourcePlugin() {
-  const entryMap = {
-    "/js/main.js": join(root, "src/ts/main.ts"),
-    "/js/about.js": join(root, "src/ts/about.ts"),
-  };
+const scriptToTs = {
+  "/js/main.js": join(root, "src/ts/main.ts"),
+  "/js/about.js": join(root, "src/ts/about.ts"),
+  "/js/projects-page.js": join(root, "src/ts/projects-page.ts"),
+};
 
+function tsFromSourcePlugin() {
   return {
     name: "ts-from-source",
+    enforce: "pre",
+
+    resolveId(id) {
+      const normalized = id.startsWith("/") ? id : "/" + id;
+      const clean = normalized.split("?")[0];
+      const resolved = scriptToTs[clean];
+      if (resolved) return resolved;
+      return null;
+    },
+
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        const entry = entryMap[req.url?.split("?")[0]];
+        const pathname = req.url?.split("?")[0];
+        const entry = scriptToTs[pathname];
         if (!entry) return next();
 
         try {

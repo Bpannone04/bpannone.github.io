@@ -1,4 +1,4 @@
-import { GalleryModal } from "./gallery-modal.js";
+import { projects } from "./projects.js";
 
 interface NavItem {
   label: string;
@@ -7,14 +7,6 @@ interface NavItem {
 
 interface Skill {
   name: string;
-}
-
-interface Project {
-  title: string;
-  description: string;
-  tags: string[];
-  link?: string;
-  gallery?: string[];
 }
 
 interface ContactLink {
@@ -35,28 +27,8 @@ class Website {
   }
 
   init(): void {
-    this.checkDevelopmentEnvironment();
     this.render();
     this.initEventListeners();
-  }
-
-  private checkDevelopmentEnvironment(): void {
-    const hostname: string = window.location.hostname;
-    const port: string = window.location.port;
-    const isDevelopment: boolean =
-      (hostname === "localhost" || hostname === "127.0.0.1") && port === "8080";
-
-    if (isDevelopment) {
-      this.showDevelopmentBanner();
-    }
-  }
-
-  private showDevelopmentBanner(): void {
-    const banner = document.createElement("div");
-    banner.className =
-      "fixed bottom-0 left-0 right-0 bg-orange-500 text-white text-center py-2 font-bold text-sm z-[10000] shadow-md";
-    banner.textContent = "DEVELOPMENT ENVIRONMENT NOT PRODUCTION";
-    document.body.appendChild(banner);
   }
 
   private render(): void {
@@ -76,7 +48,7 @@ class Website {
     const navItems: NavItem[] = [
       { label: "Home", href: "/" },
       { label: "About", href: "/about" },
-      { label: "Projects", href: "/#projects" },
+      { label: "Projects", href: "/projects" },
       { label: "Contact", href: "/#contact" },
     ];
 
@@ -143,7 +115,7 @@ class Website {
                         </p>
 
                     <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center px-4">
-                        <a href="#projects" class="px-6 sm:px-8 py-3 bg-white text-slate-950 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base">
+                        <a href="/projects" class="px-6 sm:px-8 py-3 bg-white text-slate-950 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base">
                             View Projects
                         </a>
                         <a href="#contact" class="px-6 sm:px-8 py-3 bg-slate-800 text-white rounded-lg font-semibold hover:bg-slate-700 transition-all border border-slate-700 text-sm sm:text-base">
@@ -276,39 +248,8 @@ class Website {
   }
 
   private renderProjects(): string {
-    const projects: Project[] = [
-      {
-        title: "Gym Management Software",
-        description:
-          "Designed and built an application for managing Gyms. Utilized JavaScript and Node.js, along with MySQL for the database. Designed the database to follow business rules and properly configured all tables and keys.",
-        tags: ["JavaScript", "Node.js", "MySQL"],
-        gallery: [
-          "images/GymManagement/home-screen.png",
-          "images/GymManagement/user-dashboard.png",
-          "images/GymManagement/user-notifications.png",
-          "images/GymManagement/manager-dashboard.png",
-          "images/GymManagement/manager-user-information-dashboard.png",
-          "images/GymManagement/manager-classes-dashboard.png",
-          "images/GymManagement/manager-rooms-dashboard.png",
-          "images/GymManagement/manager-notifications-dashboard.png",
-        ],
-      },
-      {
-        title: "Real-Time Chat Webpage",
-        description:
-          "Designed and built a real-time chat website that utilized JavaScript for the front end and Python for the back end. Utilized WebSockets for real-time messaging and designed a system to log chats so users could retrieve previous chat data.",
-        tags: ["JavaScript", "Python", "WebSockets"],
-      },
-      {
-        title: "Personal Portfolio Website",
-        description:
-          "This personal website uses TypeScript and Tailwind CSS to create a modern, responsive design. It highlights clean layouts, follows best practices, and includes dynamic content, image galleries, and a layout that works well on any device.",
-        tags: ["TypeScript", "Tailwind CSS"],
-      },
-    ];
-
     const projectCards = projects
-      .map((project, index) => {
+      .map((project) => {
         const tags = project.tags
           .map(
             (tag) =>
@@ -318,13 +259,6 @@ class Website {
 
         const link = project.link
           ? `<a href="${project.link}" class="text-slate-800 hover:text-slate-600 font-semibold">View Project</a>`
-          : "";
-
-        const galleryButton = project.gallery
-          ? `<button data-gallery-id="gallery-${index}" class="mt-3 px-5 sm:px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-all shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 duration-200 text-sm sm:text-base">
-                    View Gallery
-                    <span class="inline-block ml-2">→</span>
-                </button>`
           : "";
 
         return `
@@ -337,9 +271,11 @@ class Website {
                     <div class="flex flex-wrap gap-2 mb-4">${tags}</div>
                     <div class="flex flex-wrap gap-3">
                         ${link}
-                        ${galleryButton}
+                        <a href="/projects" class="mt-3 px-5 sm:px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-all shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 duration-200 text-sm sm:text-base inline-block">
+                            View on Projects
+                            <span class="inline-block ml-2">→</span>
+                        </a>
                     </div>
-                    ${project.gallery ? GalleryModal.render(`gallery-${index}`, project.title, project.gallery) : ""}
                 </div>
             `;
       })
@@ -421,7 +357,7 @@ class Website {
   private renderFooter(): string {
     const currentYear = new Date().getFullYear();
     return `
-            <footer class="bg-slate-900 text-slate-400 py-8 px-4 sm:px-6 lg:px-8">
+            <footer class="bg-slate-900 text-slate-400 text-sm py-3 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-6xl mx-auto text-center">
                     <p>&copy; ${currentYear} Bryce Pannone. All rights reserved.</p>
                 </div>
@@ -481,54 +417,6 @@ class Website {
         }
       });
     }
-
-    // Gallery modals
-    this.initGalleryListeners();
-  }
-
-  private initGalleryListeners(): void {
-    const gallery = new GalleryModal();
-
-    // Open gallery buttons - support both click and touch events for mobile
-    document.querySelectorAll("[data-gallery-id]").forEach((button) => {
-      let touchHandled = false;
-
-      const openGallery = (e: Event) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const target = e.currentTarget as HTMLElement;
-        const galleryId = target.getAttribute("data-gallery-id");
-        if (galleryId && !touchHandled) {
-          touchHandled = true;
-          gallery.open(galleryId);
-          // Reset flag after a short delay
-          setTimeout(() => {
-            touchHandled = false;
-          }, 300);
-        }
-      };
-
-      // Handle touch events for mobile - use touchstart to prevent click
-      button.addEventListener(
-        "touchstart",
-        (e) => {
-          e.preventDefault(); // Prevent click from firing
-          const target = e.currentTarget as HTMLElement;
-          const galleryId = target.getAttribute("data-gallery-id");
-          if (galleryId && !touchHandled) {
-            touchHandled = true;
-            gallery.open(galleryId);
-            setTimeout(() => {
-              touchHandled = false;
-            }, 300);
-          }
-        },
-        { passive: false },
-      );
-
-      // Handle click events for desktop
-      button.addEventListener("click", openGallery);
-    });
   }
 }
 
