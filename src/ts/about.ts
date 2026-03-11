@@ -106,17 +106,32 @@ class AboutPage {
                         <div>
                             <div class="prose max-w-none">
                                 <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4">About Me</h2>
-                                <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-                                    Over the past four years of studying computer science, my beliefs about software development have changed. I originally believed software development was mostly about learning a programming language. But after four years of classes, projects, and an internship, I've learned that there is much more to learn about software development, from designing, building, and maintaining software to debugging code or using tools such as Docker or Git. My original beliefs about computer science have changed after learning more about the subject and getting more hands-on experience.
+                                <p id="about-preview" class="text-gray-700 text-base sm:text-lg leading-relaxed">
+                                    I have always been fascinated by computers and how they work. That is the main reason I chose to enroll at Frostburg State University and pursue a degree in Computer Science. I did not have much experience when I started college back in 2022, but as the years have passed, not only have I drastically improved my programming skills, but I have also improved my professional skills. As I approach graduation, I look back on all of the classes I have taken and the experiences I have had. I believe it’s a combination of these that has prepared me to graduate and start a career in technology.
                                 </p>
-                                <br />
-                                <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-                                    I have learned that software development involves design, development, problem-solving, and collaboration. While most of the courses I've taken have taught me about debugging code, architecture, and using version control like Git, it's the hands-on experience where I have gained the most knowledge. Through various projects and my internship, I have learned to collaborate with other developers, understand different business workflows, and adapt to changing project requirements.
-                                </p>
-                                  <br />
-                                <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-                                    I'll be graduating in the Spring, which brings to mind my long-term goals. I would like to continue to learn while working in the industry. I want to continue using the latest tools and frameworks to accomplish this. I will research and stay up to date on them. I also want to be able to take feedback from others and use it to improve my development skills. \
-                                </p>
+                                <div id="about-full" class="mt-4 text-gray-700 text-base sm:text-lg leading-relaxed hidden">
+                                    <p class="mb-4">
+                                        Some of my best work has come from classes at Frostburg, one of which I’m particularly proud of is the Gym Management Software I built for my database class. This project combined skills not just from databases, but also from other computer science classes, and was very well-rounded and functioned properly. If I had to do it differently, I would make sure I gave myself more time because, towards the end, I had to rush through some aspects of the project.
+                                    </p>
+                                    <p class="mb-4">
+                                        Some other work that I’m proud of has come through my internship at Willetts Technology. Not only have I learned a lot about how companies operate, but I’ve also picked up multiple software development practices. Along with that, I have been able to apply the skills I’ve learned in school to a real-world setting and have helped make significant updates to their Electronic Health Record Software.
+                                    </p>
+                                    <p class="mb-4">
+                                        My education at Frostburg has helped me to develop many strengths to rely on. I now think more analytically about problems and test multiple solutions before reaching a conclusion. While I have developed these strengths, I still have some weaknesses. I tend not to seek advice or help when I need it; instead, I spend more time trying to figure things out for myself, which decreases productivity. What I have been doing to improve this weakness is seeking out help from the other developers I work with.
+                                    </p>
+                                    <p class="mb-4">
+                                        Looking ahead to next year, I hope to be working as a software developer somewhere. After that, I hope to attend graduate school and obtain a master’s degree. Once I get a job, I intend to keep learning and stay up to date on the latest technology and hopefully use it in my work when needed. I’m hopeful that in the next 10 years, I may be in a leadership position within a company, whether that be local or in a different city.
+                                    </p>
+                                    <p class="mb-4">
+                                        Frostburg State has played a pivotal role in preparing me for my career. When I started college, I didn’t have much programming experience, and after four years, I can say that is no longer the case. Through my time at Frostburg, I have put together a solid collection of work that shows how I have grown over time and has opened doors to opportunities I did not think I would have. Overall, I would rate my college performance as strong, as I have learned numerous concepts and worked to significantly improve my skill set.
+                                    </p>
+                                    <p class="mb-0">
+                                        As I look towards graduation, I am confident that Frostburg State has adequately prepared me for this stage of my professional career. Through coursework, projects, experiences, and my internship, I have gained the necessary skills, and I look forward to continuing to develop them as I start working in the industry.
+                                    </p>
+                                </div>
+                                <button id="about-toggle" class="mt-4 inline-flex items-center text-sm font-semibold text-slate-900 hover:text-slate-700">
+                                    Read more
+                                </button>
                             </div>
 
                             <div class="mt-10">
@@ -124,7 +139,7 @@ class AboutPage {
                                 <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-6">
                                     <h3 class="text-base sm:text-lg font-bold text-slate-900">Frostburg State University – Frostburg, MD</h3>
                                     <p class="text-slate-700 mt-1">Bachelor of Science in Computer Science</p>
-                                    <p class="text-slate-600 text-sm mt-1">Expected May 2026</p>
+                                    <p class="text-slate-600 text-sm mt-1">May 2026</p>
                                     <div class="mt-4">
                                         <p class="text-sm font-semibold text-slate-700 mb-2">Relevant Coursework:</p>
                                         <p class="text-sm text-gray-600">Software Engineering | Data Structures & Algorithms | Computer Networking | Operating Systems | Databases | Secure Computing | Digital Logic</p>
@@ -211,6 +226,23 @@ class AboutPage {
     if (menuButton && mobileMenu) {
       menuButton.addEventListener("click", () => {
         mobileMenu.classList.toggle("hidden");
+      });
+    }
+
+    // About "Read more" toggle
+    const aboutToggle = document.getElementById("about-toggle");
+    const aboutFull = document.getElementById("about-full");
+
+    if (aboutToggle && aboutFull) {
+      aboutToggle.addEventListener("click", () => {
+        const isHidden = aboutFull.classList.contains("hidden");
+        if (isHidden) {
+          aboutFull.classList.remove("hidden");
+          aboutToggle.textContent = "Show less";
+        } else {
+          aboutFull.classList.add("hidden");
+          aboutToggle.textContent = "Read more";
+        }
       });
     }
 
