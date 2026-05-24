@@ -100,7 +100,7 @@ class AboutPage {
                     <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
                         <div class="flex items-center justify-center mb-6 md:mb-0">
                             <div class="relative max-w-sm w-full">
-                                <img src="images/Headshot.png" alt="Bryce Pannone" class="w-full rounded-2xl shadow-xl object-cover aspect-[3/4] border-4 border-slate-100 hover:shadow-2xl transition-shadow duration-300" />
+                                <img src="images/Headshot.jpg" alt="Bryce Pannone" class="w-full rounded-2xl shadow-xl object-cover aspect-[3/4] border-4 border-slate-100 hover:shadow-2xl transition-shadow duration-300" />
                             </div>
                         </div>
                         <div>
@@ -140,6 +140,7 @@ class AboutPage {
                                     <h3 class="text-base sm:text-lg font-bold text-slate-900">Frostburg State University – Frostburg, MD</h3>
                                     <p class="text-slate-700 mt-1">Bachelor of Science in Computer Science</p>
                                     <p class="text-slate-600 text-sm mt-1">May 2026</p>
+                                    <p class="text-slate-600 text-sm mt-1"><strong>Honors:</strong> Cum Laude</p>
                                     <div class="mt-4">
                                         <p class="text-sm font-semibold text-slate-700 mb-2">Relevant Coursework:</p>
                                         <p class="text-sm text-gray-600">Software Engineering | Data Structures & Algorithms | Computer Networking | Operating Systems | Databases | Secure Computing | Digital Logic</p>
@@ -150,9 +151,15 @@ class AboutPage {
                             <div class="mt-10">
                                 <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Professional Experience</h2>
                                 <div class="space-y-6">
+                                 <div class="rounded-xl border border-slate-200 bg-white p-4 sm:p-6">
+                                        <h3 class="text-base sm:text-lg font-bold text-slate-900">Associate Software Developer</h3>
+                                        <p class="text-slate-700 mt-1">Willetts Technology | May 2026 – Present</p>
+                                        <ul class="mt-4 space-y-2 text-gray-700 text-sm list-disc list-inside">
+                                        </ul>
+                                    </div>
                                     <div class="rounded-xl border border-slate-200 bg-white p-4 sm:p-6">
                                         <h3 class="text-base sm:text-lg font-bold text-slate-900">Intern Software Developer</h3>
-                                        <p class="text-slate-700 mt-1">Willetts Technology | June 2025 – Present</p>
+                                        <p class="text-slate-700 mt-1">Willetts Technology | June 2025 – May 2026</p>
                                         <ul class="mt-4 space-y-2 text-gray-700 text-sm list-disc list-inside">
                                             <li>Worked on backend development, building systems from the ground up using frameworks like CakePHP</li>
                                             <li>General website design and upkeep</li>
