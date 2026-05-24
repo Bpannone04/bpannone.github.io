@@ -42,7 +42,11 @@ export const projects = [
         tags: ["Node.js", "PostgreSQL", "Electron", "In Progress"],
         gallery: [
             "images/Real-TimePortfolioAnalytics/Real-time portfolio log in.png",
-            "images/Real-TimePortfolioAnalytics/Real-time portfolio home page.png",
+            "images/Real-TimePortfolioAnalytics/Final Dashboard.png",
+            "images/Real-TimePortfolioAnalytics/Final Portfolio Management.png",
+            "images/Real-TimePortfolioAnalytics/Final Charts.png",
+            "images/Real-TimePortfolioAnalytics/Final Analytics Part 1.png",
+            "images/Real-TimePortfolioAnalytics/Final Analytics Part 2.png",
         ],
     },
     {
